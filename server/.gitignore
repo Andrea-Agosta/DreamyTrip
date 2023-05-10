@@ -138,3 +138,4 @@ dist
 server.js
 /containerConfig/psql.env
 containerConfig/.DS_Store
+/containerConfig/mongodb.env
