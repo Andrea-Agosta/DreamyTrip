@@ -139,3 +139,4 @@ server.js
 container/containerConfig/psql.env
 containerConfig/.DS_Store
 /container/containerConfig/mongodb.env
+/container/data
