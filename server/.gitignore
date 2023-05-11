@@ -136,6 +136,6 @@ dist
 /.DS_store
 /.idea
 server.js
-/containerConfig/psql.env
+container/containerConfig/psql.env
 containerConfig/.DS_Store
-/containerConfig/mongodb.env
+/container/containerConfig/mongodb.env
