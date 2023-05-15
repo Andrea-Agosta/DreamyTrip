@@ -10,18 +10,18 @@ router.get('/', async (_req: Request, res: Response) => {
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-  const user: IUser[] = await getUserById(Number(req.params.id));
+  const user: IUser | string = await getUserById(req.params.id);
   return res.status(200).json(user);
 });
 
-router.patch('/:id', async (req: Request<{ id: number }, {}, IUser>, res: Response) => {
-  const user: string = await updateUserById(req);
-  res.status(200).send(user);
+router.patch('/:id', async (req: Request<{ id: string }, {}, IUser>, res: Response) => {
+  const user = await updateUserById(req);
+  res.status(200).json(user);
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {
-  const response = await deleteUserById(Number(req.params.id));
-  res.status(204).json(response);
+  const response = await deleteUserById(req.params.id);
+  res.status(204).send(response);
 })
 
 export default router;

@@ -1,6 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
 
-export const connect = async () => {
+export const dbConnect = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL_LOCAL!, {
       useNewUrlParser: true,
@@ -15,4 +15,4 @@ export const connect = async () => {
   }
 };
 
-export const close = () => mongoose.disconnect();
+export const dbClose = () => mongoose.disconnect();
