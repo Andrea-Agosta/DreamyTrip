@@ -1,6 +1,6 @@
 import { deleteUserById, getAllUsers, getUserById, updateUserById } from '../controller/userController';
 import express, { Request, Response } from 'express';
-import { IBodyUser, IUser } from '../config/type/user';
+import { IUser } from '../config/type/user';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.get('/:id', async (req: Request, res: Response) => {
   return res.status(200).json(user);
 });
 
-router.patch('/:id', async (req: Request<{ id: number }, {}, IBodyUser>, res: Response) => {
+router.patch('/:id', async (req: Request<{ id: number }, {}, IUser>, res: Response) => {
   const user: string = await updateUserById(req);
   res.status(200).send(user);
 })
