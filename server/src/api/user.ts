@@ -1,6 +1,6 @@
 import { deleteUserById, getAllUsers, getUserById, updateUserById } from '../controller/userController';
 import express, { Request, Response } from 'express';
-import { IUser } from '../config/type/user';
+import { IUser } from '../config/type/userTypes';
 
 const router = express.Router();
 
