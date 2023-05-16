@@ -7,6 +7,7 @@ import { Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import user from './api/user';
 import { BadRequestError, NotFoundError } from './utils/customErrors';
+import auth from './api/auth';
 
 
 const app: Application = express();
@@ -16,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/user', user);
-// app.use('/api/auth', auth);
+app.use('/api/auth', auth);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ "message": "Read our documentation for more details" })

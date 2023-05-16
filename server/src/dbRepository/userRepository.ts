@@ -1,5 +1,5 @@
-import { User } from "../models/user";
-import { IUser } from "../config/type/user";
+import { User } from "../models/userModel";
+import { IUser } from "../config/type/userTypes";
 import { dbConnect, dbClose } from "../utils/dbConnection";
 
 export const getUsers = async (): Promise<IUser[]> => {
@@ -9,25 +9,27 @@ export const getUsers = async (): Promise<IUser[]> => {
   return usersList;
 };
 
-export const getUserByID = async (id: string): Promise<IUser | string> => {
+export const getUserByID = async (id: string): Promise<IUser | null> => {
   await dbConnect();
   const user = await User.findById(id).exec();
   await dbClose();
-  return user ? user : 'No user found';
+  return user;
 };
 
-export const getUserByEmail = async (email: string): Promise<IUser | string> => {
+export const getUserByEmail = async (email: string): Promise<IUser | null> => {
   await dbConnect();
   const user = await User.findOne({ email: email }).exec();
   await dbClose();
-  return user ? user : 'No user found';
+  return user;
 };
 
-// export const createUser = async (email: string, password: string, role: string): Promise<string> => {
-//   const query: string = `INSERT INTO UserData (email, password, role) VALUES ('${email}','${password}','${role}')`;
-//   await connect(query);
-//   return await 'user registrated;'
-// };
+export const createUser = async (name: string, surname: string, country: string, email: string, password: string): Promise<IUser> => {
+  await dbConnect();
+  const user = new User({ name, surname, country, email, password });
+  await user.save();
+  await dbClose();
+  return user;
+};
 
 export const updateUser = async (id: string, data: Partial<IUser>): Promise<IUser> => {
   await dbConnect();

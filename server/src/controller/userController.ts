@@ -1,6 +1,6 @@
 import { deleteUser, getUserByID, getUsers, updateUser } from '../dbRepository/userRepository';
 import { Request } from 'express';
-import { IUser } from '../config/type/user';
+import { IUser } from '../config/type/userTypes';
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -8,11 +8,11 @@ export const getAllUsers = async (): Promise<IUser[]> => {
   return await getUsers();
 };
 
-export const getUserById = async (id: string | undefined): Promise<IUser | string> => {
+export const getUserById = async (id: string | undefined): Promise<IUser | null> => {
   if (id) {
     return await getUserByID(id);
   }
-  throw new Error(`User ${id} does not exist`);
+  throw new Error(`An unknown error occurred`);
 }
 
 export const updateUserById = async (req: Request<{ id: string }, {}, IUser>): Promise<IUser> => {
