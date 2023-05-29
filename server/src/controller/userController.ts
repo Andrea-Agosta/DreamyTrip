@@ -1,36 +1,31 @@
-import { deleteUser, getUserByID, getUsers, updateUser } from '../dbRepository/userRepository';
 import { Request } from 'express';
 import { IUser } from '../config/type/userTypes';
+import { getUsers as getUsersService } from '../service/userService';
+import { getUserById as getUserByIdService } from '../service/userService';
+import { updateUser as updateUserService } from '../service/userService';
+import { deleteUser as deleteUserService } from '../service/userService';
 
-const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
-export const getAllUsers = async (): Promise<IUser[]> => {
-  return await getUsers();
+export const getUsers = async (): Promise<IUser[]> => {
+  return await getUsersService();
 };
 
 export const getUserById = async (id: string | undefined): Promise<IUser | null> => {
   if (id) {
-    return await getUserByID(id);
+    return await getUserByIdService(id);
   }
   throw new Error(`An unknown error occurred`);
 }
 
-export const updateUserById = async (req: Request<{ id: string }, {}, IUser>): Promise<IUser> => {
+export const updateUser = async (req: Request<{ id: string }, {}, IUser>): Promise<IUser> => {
   if (req.params.id) {
-    const updatesData: Partial<IUser> = {};
-    req.body.name && (updatesData.name = req.body.name);
-    req.body.surname && (updatesData.surname = req.body.surname);
-    req.body.country && (updatesData.country = req.body.country);
-    req.body.email && emailRegex.test(req.body.email) && (updatesData.email = req.body.email);
-    req.body.password && (updatesData.password = req.body.password);
-    return await updateUser(req.params.id, updatesData);
+    return updateUserService(req);
   }
   throw new Error('BadRequestError');
 };
 
-export const deleteUserById = async (id: string | undefined): Promise<string> => {
+export const deleteUser = async (id: string | undefined): Promise<string> => {
   if (!id) {
     throw new Error('BadRequestError');
   }
-  return await deleteUser(id);
+  return await deleteUserService(id);
 };

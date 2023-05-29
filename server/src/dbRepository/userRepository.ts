@@ -9,7 +9,7 @@ export const getUsers = async (): Promise<IUser[]> => {
   return usersList;
 };
 
-export const getUserByID = async (id: string): Promise<IUser | null> => {
+export const getUserById = async (id: string): Promise<IUser | null> => {
   await dbConnect();
   const user = await User.findById(id).exec();
   await dbClose();

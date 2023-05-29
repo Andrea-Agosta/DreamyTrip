@@ -1,0 +1,30 @@
+import { Request } from 'express';
+import { IUser } from "../config/type/userTypes";
+import { getUsers as getUsersRepository } from "../dbRepository/userRepository";
+import { getUserById as getUserByIdRepository } from "../dbRepository/userRepository";
+import { updateUser as updateUserRepository } from "../dbRepository/userRepository";
+import { deleteUser as deleteUserrRepository } from "../dbRepository/userRepository";
+
+const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+export const getUsers = async (): Promise<IUser[]> => {
+  return await getUsersRepository();
+};
+
+export const getUserById = async (id: string): Promise<IUser | null> => {
+  return await getUserByIdRepository(id);
+}
+
+export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {
+  const updatesData: Partial<IUser> = {};
+  req.body.name && (updatesData.name = req.body.name);
+  req.body.surname && (updatesData.surname = req.body.surname);
+  req.body.country && (updatesData.country = req.body.country);
+  req.body.email && emailRegex.test(req.body.email) && (updatesData.email = req.body.email);
+  req.body.password && (updatesData.password = req.body.password);
+  return await updateUserRepository(req.params.id, updatesData);
+}
+
+export const deleteUser = async (id: string): Promise<string> => {
+  return await deleteUserrRepository(id);
+};
