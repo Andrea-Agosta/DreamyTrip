@@ -2,7 +2,7 @@ import passport from 'passport';
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 const router = express.Router();
-import '../controller/authController';
+import '../controller/auth.controller';
 import { IUser } from '../config/type/userTypes';
 
 

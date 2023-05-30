@@ -1,9 +1,11 @@
 import { Request } from 'express';
 import { IUser } from "../config/type/userTypes";
-import { getUsers as getUsersRepository } from "../dbRepository/userRepository";
-import { getUserById as getUserByIdRepository } from "../dbRepository/userRepository";
-import { updateUser as updateUserRepository } from "../dbRepository/userRepository";
-import { deleteUser as deleteUserrRepository } from "../dbRepository/userRepository";
+import { getUsers as getUsersRepository } from "../repositories/user.repository";
+import { getUserById as getUserByIdRepository } from "../repositories/user.repository";
+import { getUserByEmail as getUserByEmailRepository } from "../repositories/user.repository";
+import { createUser as createUserRepository } from "../repositories/user.repository";
+import { updateUser as updateUserRepository } from "../repositories/user.repository";
+import { deleteUser as deleteUserrRepository } from "../repositories/user.repository";
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -13,6 +15,14 @@ export const getUsers = async (): Promise<IUser[]> => {
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
   return await getUserByIdRepository(id);
+}
+
+export const getUserByEmail = async (email: string): Promise<IUser | null> => {
+  return await getUserByEmailRepository(email);
+}
+
+export const createUser = async (name: string, surname: string, country: string, email: string, password: string): Promise<IUser> => {
+  return await createUserRepository(name, surname, country, email, password);
 }
 
 export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {

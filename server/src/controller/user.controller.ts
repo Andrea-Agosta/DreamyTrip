@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import { IUser } from '../config/type/userTypes';
-import { getUsers as getUsersService } from '../service/userService';
-import { getUserById as getUserByIdService } from '../service/userService';
-import { updateUser as updateUserService } from '../service/userService';
-import { deleteUser as deleteUserService } from '../service/userService';
+import { getUsers as getUsersService } from '../service/user.service';
+import { getUserById as getUserByIdService } from '../service/user.service';
+import { updateUser as updateUserService } from '../service/user.service';
+import { deleteUser as deleteUserService } from '../service/user.service';
 
 export const getUsers = async (): Promise<IUser[]> => {
   return await getUsersService();
