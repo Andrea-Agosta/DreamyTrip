@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "tsc *.ts --outDir js",
     "compile:watch": "npm run compile -- --watch *.ts",
-    "test": "jest --watch --silent --coverage",
+    "test": "dotenv -e .env.test jest --watch --silent --coverage",
     "server": "nodemon server.ts",
     "resetdata": "rimraf data",
     "docker:start": "docker compose up",
@@ -41,7 +41,9 @@
     "@types/passport": "^1.0.11",
     "@types/passport-jwt": "^3.0.8",
     "@types/passport-local": "^1.0.35",
+    "jest": "^29.5.0",
     "nodemon": "^2.0.22",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
