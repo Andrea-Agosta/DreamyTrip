@@ -10,7 +10,6 @@ passport.use(
   'signup',
   new LocalStrategy({ usernameField: 'email', passwordField: 'password', passReqToCallback: true }, async (req, email, password, done) => {
     try {
-      console.log('inside singup controller', req.body)
       if (!emailRegex.test(email) || !password || !req.body.name || !req.body.surname || !req.body.country) {
         throw new Error('BadRequestError');
       }

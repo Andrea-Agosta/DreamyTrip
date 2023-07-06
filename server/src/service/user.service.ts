@@ -6,6 +6,7 @@ import { getUserByEmail as getUserByEmailRepository } from "../repositories/user
 import { createUser as createUserRepository } from "../repositories/user.repository";
 import { updateUser as updateUserRepository } from "../repositories/user.repository";
 import { deleteUser as deleteUserrRepository } from "../repositories/user.repository";
+import { dbClose, dbConnect } from '../utils/dbConnection';
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -22,7 +23,11 @@ export const getUserByEmail = async (email: string): Promise<IUser | null> => {
 }
 
 export const createUser = async (name: string, surname: string, country: string, email: string, password: string): Promise<IUser> => {
-  return await createUserRepository(name, surname, country, email, password);
+  // await dbConnect('mongodb://test:test@localhost:27018/test');
+  await dbConnect();
+  const dbResponse = await createUserRepository(name, surname, country, email, password);
+  await dbClose();
+  return dbResponse;
 }
 
 export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {

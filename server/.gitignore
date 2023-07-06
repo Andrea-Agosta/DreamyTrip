@@ -140,6 +140,7 @@ containers/productionDbConfig/psql.env
 productionDbConfig/.DS_Store
 /containers/productionDbConfig/mongodb.env
 /containers/data
-/containers/testDbConfig/mongodb.env
-containers/testDbConfig/psql.env
+/containers/dbConfig/mongodb.env
+containers/dbConfig/psql.env
+containers/dbConfig/dbTest.env
 .env.test

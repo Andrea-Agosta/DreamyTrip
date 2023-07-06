@@ -4,21 +4,21 @@ services:
     image: mongo:latest
     restart: always
     container_name: 'dreamyTrip'
-    env_file: ./containers/productionDbConfig/mongodb.env
+    env_file: ./containers/dbConfig/mongodb.env
     ports:
       - 27017:27017
     volumes:
-      - ./containers/productionDbConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
-      - ./containers/data/productionDbConfig/mongdb:/data/db
+      - ./containers/dbConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
+      - ./containers/data/dbConfig/mongdb:/data/db
     command: mongod --logpath=/dev/null # --quiet
-  mongodbTestDreamyTrip:
+  dbTest:
     image: mongo:latest
     restart: always
-    container_name: 'dreamyTripTest'
-    env_file: ./containers/testDbConfig/mongodb.env
+    container_name: 'dbTest'
+    env_file: ./containers/dbConfig/dbTest.env
     ports:
-      - 7357:7357
+      - 27018:27018
     volumes:
-      - ./containers/testDbConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
-      - ./containers/data/testDbConfig/mongdb:/data/db
-    command: mongod --logpath=/dev/null # --quiet
+      - ./containers/dbConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
+      - ./containers/data/dbConfig/mongdb:/data/dbTest
+    command: mongod --port 27018 --logpath=/dev/null

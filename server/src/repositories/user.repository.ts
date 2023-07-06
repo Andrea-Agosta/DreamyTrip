@@ -24,10 +24,10 @@ export const getUserByEmail = async (email: string): Promise<IUser | null> => {
 };
 
 export const createUser = async (name: string, surname: string, country: string, email: string, password: string): Promise<IUser> => {
-  await dbConnect();
+  // await dbConnect();
   const user = new User({ name, surname, country, email, password });
   await user.save();
-  await dbClose();
+  // await dbClose();
   return user;
 };
 
