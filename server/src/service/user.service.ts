@@ -11,19 +11,27 @@ import { dbClose, dbConnect } from '../utils/dbConnection';
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
 export const getUsers = async (): Promise<IUser[]> => {
-  return await getUsersRepository();
+  await dbConnect();
+  const dbResponse = await getUsersRepository();
+  await dbClose();
+  return dbResponse;
 };
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
-  return await getUserByIdRepository(id);
+  await dbConnect();
+  const dbResponse = await getUserByIdRepository(id);
+  await dbClose();
+  return dbResponse;
 }
 
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
-  return await getUserByEmailRepository(email);
+  await dbConnect();
+  const dbResponse = await getUserByEmailRepository(email);
+  await dbClose();
+  return dbResponse;
 }
 
 export const createUser = async (name: string, surname: string, country: string, email: string, password: string): Promise<IUser> => {
-  // await dbConnect('mongodb://test:test@localhost:27018/test');
   await dbConnect();
   const dbResponse = await createUserRepository(name, surname, country, email, password);
   await dbClose();
@@ -37,9 +45,15 @@ export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {
   req.body.country && (updatesData.country = req.body.country);
   req.body.email && emailRegex.test(req.body.email) && (updatesData.email = req.body.email);
   req.body.password && (updatesData.password = req.body.password);
-  return await updateUserRepository(req.params.id, updatesData);
+  await dbConnect();
+  const dbResponse = await updateUserRepository(req.params.id, updatesData);
+  await dbClose();
+  return dbResponse;
 }
 
 export const deleteUser = async (id: string): Promise<string> => {
-  return await deleteUserrRepository(id);
+  await dbConnect();
+  const dbResponse = await deleteUserrRepository(id);
+  await dbClose();
+  return dbResponse;
 };

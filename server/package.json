@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "compile": "tsc *.ts --outDir js",
     "compile:watch": "npm run compile -- --watch *.ts",
-    "test": "jest --watch --silent --coverage",
+    "test": "jest --coverage",
     "server": "nodemon server.ts",
     "resetdata": "rimraf ./containers/data",
     "docker:start": "docker compose -f docker-compose.yml up",

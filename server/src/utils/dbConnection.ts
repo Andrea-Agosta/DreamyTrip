@@ -2,7 +2,6 @@ import mongoose, { ConnectOptions } from "mongoose";
 
 export const dbConnect = async (dbUri = process.env.MONGO_URL_LOCAL) => {
   try {
-    console.log(dbUri, 'dbURL');
     if (dbUri) {
       await mongoose.connect(dbUri, {
         useNewUrlParser: true,

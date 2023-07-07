@@ -1,15 +1,13 @@
-# version: '3.1'
-
-# services:
-
-#   dbTest:
-#     image: mongo
-#     restart: always
-#     ports:
-#       - 8081:8081
-#     environment:
-#       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-#       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-#       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27018/
-
-
+version: '3.1'
+services:
+  dbTest:
+    image: mongo:latest
+    restart: always
+    container_name: 'dbTest'
+    env_file: ./containers/dbConfig/dbTest.env
+    ports:
+      - 27018:27018
+    volumes:
+      - ./containers/dbConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
+      - ./containers/data/dbConfig/mongdb:/data/dbTest
+    command: mongod --port 27018 --logpath=/dev/null
