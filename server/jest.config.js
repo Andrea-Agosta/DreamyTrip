@@ -7,5 +7,10 @@ module.exports = {
   },
   moduleNameMapper: {
     '^@src/(.*)$': '<rootDir>/src/$1',
+    '^dbConnection$': '<rootDir>/src/__test__/__mocks__/dbConnection.ts',
   },
+  setupFiles: ['dotenv/config'],
+  globalSetup: './src/__test__/config/test-global-setup.ts',
+  globalTeardown: './src/__test__/config/test-global-teardown.ts',
+  setupFilesAfterEnv: ['./src/__test__/config/test-config.ts'],
 };

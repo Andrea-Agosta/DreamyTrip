@@ -6,36 +6,23 @@ import { getUserByEmail as getUserByEmailRepository } from "../repositories/user
 import { createUser as createUserRepository } from "../repositories/user.repository";
 import { updateUser as updateUserRepository } from "../repositories/user.repository";
 import { deleteUser as deleteUserrRepository } from "../repositories/user.repository";
-import { dbClose, dbConnect } from '../utils/dbConnection';
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
 export const getUsers = async (): Promise<IUser[]> => {
-  await dbConnect();
-  const dbResponse = await getUsersRepository();
-  await dbClose();
-  return dbResponse;
+  return await getUsersRepository();
 };
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
-  await dbConnect();
-  const dbResponse = await getUserByIdRepository(id);
-  await dbClose();
-  return dbResponse;
+  return await getUserByIdRepository(id);
 }
 
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
-  await dbConnect();
-  const dbResponse = await getUserByEmailRepository(email);
-  await dbClose();
-  return dbResponse;
+  return await getUserByEmailRepository(email);
 }
 
 export const createUser = async (name: string, surname: string, country: string, email: string, password: string): Promise<IUser> => {
-  await dbConnect();
-  const dbResponse = await createUserRepository(name, surname, country, email, password);
-  await dbClose();
-  return dbResponse;
+  return await createUserRepository(name, surname, country, email, password);
 }
 
 export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {
@@ -45,15 +32,9 @@ export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {
   req.body.country && (updatesData.country = req.body.country);
   req.body.email && emailRegex.test(req.body.email) && (updatesData.email = req.body.email);
   req.body.password && (updatesData.password = req.body.password);
-  await dbConnect();
-  const dbResponse = await updateUserRepository(req.params.id, updatesData);
-  await dbClose();
-  return dbResponse;
+  return await updateUserRepository(req.params.id, updatesData);
 }
 
 export const deleteUser = async (id: string): Promise<string> => {
-  await dbConnect();
-  const dbResponse = await deleteUserrRepository(id);
-  await dbClose();
-  return dbResponse;
+  return await deleteUserrRepository(id);
 };

@@ -12,7 +12,7 @@ router.post('/signup', passport.authenticate('signup', { session: false }), asyn
   }
   const body = { name: req.body.name, surname: req.body.surname, country: req.body.country, email: req.body.email };
   const token = jwt.sign({ user: body }, process.env.TOP_SECRET, { expiresIn: '1h' });
-  res.cookie('auth', token).json({
+  res.status(201).cookie('auth', token).json({
     message: 'Signup successful',
     user: req.user
   });
@@ -33,7 +33,7 @@ router.post('/login', async (req, res, next) => {
         }
         const body = { name: req.body.name, surname: req.body.surname, country: req.body.country, email: req.body.email };
         const token = jwt.sign({ user: body }, process.env.TOP_SECRET, { expiresIn: '1h' });
-        return res.cookie('auth', token, { maxAge: 60 * 60 * 1000 }).send('cookie set');
+        return res.cookie('auth', token, { maxAge: 60 * 60 * 1000 }).send('Login successful');
       });
     } catch (error) {
       return next(error);

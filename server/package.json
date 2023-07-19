@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "compile": "tsc *.ts --outDir js",
     "compile:watch": "npm run compile -- --watch *.ts",
-    "test": "jest --coverage",
+    "test": "jest --coverage --silent=false",
     "server": "nodemon server.ts",
     "resetdata": "rimraf ./containers/data",
     "docker:start": "docker compose -f docker-compose.yml up",
@@ -30,7 +30,8 @@
     "mongoose": "^7.1.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -42,6 +43,7 @@
     "@types/passport": "^1.0.11",
     "@types/passport-jwt": "^3.0.8",
     "@types/passport-local": "^1.0.35",
+    "@types/supertest": "^2.0.12",
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",
     "testcontainers": "^9.8.0",

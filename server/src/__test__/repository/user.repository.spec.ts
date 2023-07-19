@@ -1,63 +1,9 @@
-import { dbClose, dbConnect } from '../../utils/dbConnection';
-import { DockerComposeEnvironment, StartedDockerComposeEnvironment } from 'testcontainers';
-import { createUser, getUserByEmail, getUserById, getUsers, updateUser } from '../../repositories/user.repository';
-import mongoose from 'mongoose';
-import { deleteUser } from '@src/service/user.service';
+import { createUser, getUserByEmail, getUserById, getUsers, updateUser, deleteUser } from '../../repositories/user.repository';
+import { populateDb, users } from '../utils/test-user-data';
 
-const users = [
-  {
-    name: 'John',
-    surname: 'Doe',
-    country: 'SE',
-    email: 'john@example.com',
-    password: 'topsecret',
-  },
-  {
-    name: 'Smith',
-    surname: 'Hopster',
-    country: 'SE',
-    email: 'Smit@example.com',
-    password: 'topsecret',
-  },
-  {
-    name: 'Mary',
-    surname: 'Calipso',
-    country: 'SE',
-    email: 'mary@example.com',
-    password: 'topsecret',
-  }
-];
-
-const populateDb = async () => {
-  for (let i = 0; i < users.length; i++) {
-    const user = users[i];
-    if (user) {
-      await createUser(user.name, user.surname, user.country, user.email, user.password);
-    } else {
-      throw new Error("Impossible to popultae DB");
-    }
-  }
-}
+jest.mock('../../utils/dbConnection.ts');
 
 describe('User Repository', () => {
-  let environment: StartedDockerComposeEnvironment;
-
-  beforeAll(async () => {
-    const composeFilePath = "./";
-    const composeFile = "docker-compose-test.yml";
-    environment = await new DockerComposeEnvironment(composeFilePath, composeFile).up();
-    dbConnect('mongodb://test:test@localhost:27018');
-  }, 60000);
-
-  afterEach(async () => {
-    await mongoose.connect('mongodb://test:test@localhost:27018');
-    await mongoose.connection.dropDatabase();
-  });
-
-  afterAll(async () => {
-    await environment.down();
-    await dbClose();
-  });
 
   it('Get all users', async () => {
     await populateDb();
@@ -105,7 +51,6 @@ describe('User Repository', () => {
   });
 
   describe('Update user', () => {
-
     it('Update User successfully', async () => {
       const data = {
         name: 'Smith John',
@@ -147,10 +92,8 @@ describe('User Repository', () => {
     if (users[1]?.id) {
       const resp = await deleteUser(users[1].id);
       expect(resp).toBe('user deleted');
-      await dbConnect('mongodb://test:test@localhost:27018');
       const getResp = await getUsers();
       expect(getResp.length).toBe(2);
     }
   });
-
 });
