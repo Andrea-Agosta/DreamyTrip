@@ -1,3 +1,4 @@
+import { BadRequestError } from '@src/utils/customErrors';
 import { createUser, getUserByEmail, getUserById, getUsers, updateUser, deleteUser } from '../../repositories/user.repository';
 import { populateDb, users } from '../utils/test-user-data';
 
@@ -82,7 +83,7 @@ describe('User Repository', () => {
         password: 'updatepassword',
       };
       await populateDb();
-      await expect(updateUser('aaaa', data)).rejects.toThrow(new Error('BadRequestError'));
+      expect(updateUser('aaaa', data)).rejects.toThrow(new BadRequestError());
     });
   });
 

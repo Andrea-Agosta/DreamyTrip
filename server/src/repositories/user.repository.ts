@@ -1,6 +1,7 @@
 import { User } from "../models/userModel";
 import { IUser } from "../config/type/userTypes";
 import { dbClose, dbConnect } from "../utils/dbConnection";
+import { BadRequestError } from "../utils/customErrors";
 
 export const getUsers = async (): Promise<IUser[]> => {
   await dbConnect();
@@ -37,11 +38,11 @@ export const updateUser = async (id: string, data: Partial<IUser>): Promise<IUse
     const user = await User.findByIdAndUpdate(id, data, { new: true });
     await dbClose();
     if (!user) {
-      throw new Error('BadRequestError')
+      throw new BadRequestError();
     }
     return user;
   } catch (error) {
-    throw new Error('BadRequestError')
+    throw new BadRequestError();
   }
 }
 

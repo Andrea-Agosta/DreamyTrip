@@ -43,4 +43,61 @@ describe("Dreamy Flight app", () => {
         });
     });
   });
+
+  describe("Failed request", () => {
+    it("Signup failure duplicate mail", async () => {
+      await requestSignupUser();
+      return await requestSignupUser()
+        .expect(400)
+        .then(response => {
+          if (response.error) {
+            expect(response.error.text).toBe(JSON.stringify({ "message": "Bad request" }));
+          }
+        });
+    });
+
+    it("Signup failure wrong format mail", async () => {
+      return await request(app)
+        .post('/api/auth/signup')
+        .set("Accept", "application/json")
+        .send({
+          name: 'John',
+          surname: 'Doe',
+          country: 'SE',
+          email: 'wrongFormat.com',
+          password: 'topsecret',
+        })
+        .expect("Content-Type", /json/)
+        .expect(400)
+        .expect(JSON.stringify({ "message": "Bad request" }));
+    });
+
+    it("login failure wrong password", async () => {
+      await requestSignupUser();
+      return request(app)
+        .post('/api/auth/login')
+        .set("Accept", "application/json")
+        .send({ email: users[0]?.email, password: 'wrongPassword' })
+        .expect(400)
+        .then(response => {
+          if (response.error) {
+            expect(response.error.text).toBe(JSON.stringify({ "message": "Bad request" }));
+          }
+        });
+    });
+
+    it("login failure email do not exist", async () => {
+      await requestSignupUser();
+      return request(app)
+        .post('/api/auth/login')
+        .set("Accept", "application/json")
+        .send({ email: 'email@notExist.com', password: users[0]?.password })
+        .expect(400)
+        .then(response => {
+          if (response.error) {
+            expect(response.error.text).toBe(JSON.stringify({ "message": "Bad request" }));
+          }
+        });
+    });
+  });
 });

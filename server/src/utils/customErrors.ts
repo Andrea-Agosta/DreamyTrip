@@ -1,17 +1,17 @@
 export class BadRequestError extends Error {
   statusCode: number;
-  constructor(message: string) {
-    super(message);
-    this.name = 'BadRequestError';
+  constructor() {
+    super();
     this.statusCode = 400;
+    this.message = 'Bad request';
   }
 }
 
 export class NotFoundError extends Error {
   statusCode: number;
   constructor(message: string) {
-    super(message);
-    this.name = 'NotFoundError';
+    super();
+    this.message = message + ' Not found';
     this.statusCode = 404;
   }
 }

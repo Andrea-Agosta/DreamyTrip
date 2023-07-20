@@ -2,13 +2,14 @@ import bcrypt from 'bcrypt';
 import { getUserByEmail, createUser } from './user.service';
 import { IUser } from '../config/type/userTypes';
 import { Request } from 'express';
+import { BadRequestError } from '../utils/customErrors';
 
 const saltRounds: number = process.env.SALT ? parseInt(process.env.SALT, 10) : 10;
 
 export const signup = async (req: Request, email: string, password: string, done: (error: Error | null, user?: IUser) => void) => {
   const checkIfEmailAlreadyExists = await getUserByEmail(email);
   if (checkIfEmailAlreadyExists) {
-    throw new Error('An unknown error occurred');
+    throw new BadRequestError();
   }
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashPassword = bcrypt.hashSync(password, salt);
@@ -19,11 +20,11 @@ export const signup = async (req: Request, email: string, password: string, done
 export const login = async (email: string, password: string, done: (error: Error | null, user?: IUser | boolean, info?: { message: string }) => void) => {
   const user = await getUserByEmail(email);
   if (!user) {
-    return done(null, false, { message: 'NotFoundError' });
+    throw new BadRequestError();
   }
   const isPasswordValid: boolean = user && bcrypt.compareSync(password, user.password);
   if (!isPasswordValid) {
-    return done(null, false, { message: 'BadRequestError' });
+    throw new BadRequestError();
   }
   return done(null, user, { message: 'Logged in Successfully' });
 }

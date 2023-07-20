@@ -1,13 +1,11 @@
-import express from 'express';
-import { Application } from 'express';
-import bodyParser from 'body-parser';
-// import passport from 'passport';
 import cors from 'cors';
-import { Request, Response, NextFunction } from 'express';
+import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import express, { Application, Request, Response } from 'express';
+// import passport from 'passport';
 import user from './api/user';
-import { BadRequestError, NotFoundError } from './utils/customErrors';
 import auth from './api/auth';
+import { errorHandler } from './middleware/errorHandler';
 
 
 const app: Application = express();
@@ -23,16 +21,6 @@ app.get("/", (_req: Request, res: Response) => {
   res.json({ "message": "Read our documentation for more details" })
 });
 
-app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
-  switch (error.constructor) {
-    case BadRequestError:
-      return res.status(400).send(error.message);
-    case NotFoundError:
-      return res.status(404).send(error.message);
-    default:
-      console.error(error);
-      return res.status(500).send('An unknown error occurred');
-  }
-});
+app.use(errorHandler);
 
 export default app;

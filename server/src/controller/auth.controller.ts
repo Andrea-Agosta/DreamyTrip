@@ -2,16 +2,17 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 import { login, signup } from '../service/auth.service';
+import { BadRequestError } from '../utils/customErrors';
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const secretKey: string = process.env.TOP_SECRET || '';
+const secretKey: string = process.env.TOP_SECRET || 'defaultSecretKey';
 
 passport.use(
   'signup',
   new LocalStrategy({ usernameField: 'email', passwordField: 'password', passReqToCallback: true }, async (req, email, password, done) => {
     try {
       if (!emailRegex.test(email) || !password || !req.body.name || !req.body.surname || !req.body.country) {
-        throw new Error('BadRequestError');
+        throw new BadRequestError();
       }
       return await signup(req, email, password, done);
     } catch (error) {
