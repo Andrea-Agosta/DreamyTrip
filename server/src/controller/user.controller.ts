@@ -24,9 +24,9 @@ export const updateUser = async (req: Request<{ id: string }, {}, IUser>): Promi
   throw new BadRequestError();
 };
 
-export const deleteUser = async (id: string | undefined): Promise<string> => {
+export const deleteUser = async (id: string | undefined): Promise<void> => {
   if (!id) {
     throw new BadRequestError();
   }
-  return await deleteUserService(id);
+  await deleteUserService(id);
 };

@@ -91,8 +91,7 @@ describe('User Repository', () => {
     await populateDb();
     const users = await getUsers();
     if (users[1]?.id) {
-      const resp = await deleteUser(users[1].id);
-      expect(resp).toBe('user deleted');
+      await deleteUser(users[1].id);
       const getResp = await getUsers();
       expect(getResp.length).toBe(2);
     }

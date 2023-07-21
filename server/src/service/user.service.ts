@@ -35,6 +35,6 @@ export const updateUser = async (req: Request<{ id: string }, {}, IUser>) => {
   return await updateUserRepository(req.params.id, updatesData);
 }
 
-export const deleteUser = async (id: string): Promise<string> => {
-  return await deleteUserrRepository(id);
+export const deleteUser = async (id: string): Promise<void> => {
+  await deleteUserrRepository(id);
 };

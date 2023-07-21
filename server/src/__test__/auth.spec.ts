@@ -17,7 +17,7 @@ const requestLoginUsers = () =>
     .set("Accept", "application/json")
     .send({ email: users[0]?.email, password: users[0]?.password })
 
-describe("Dreamy Flight app", () => {
+describe("Dreamy Flight Auth", () => {
 
   describe("successufull request", () => {
 
@@ -45,6 +45,7 @@ describe("Dreamy Flight app", () => {
   });
 
   describe("Failed request", () => {
+
     it("Signup failure duplicate mail", async () => {
       await requestSignupUser();
       return await requestSignupUser()

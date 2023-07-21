@@ -21,8 +21,8 @@ router.patch('/:id', tryCatch(async (req: Request<{ id: string }, {}, IUser>, re
 }));
 
 router.delete('/:id', tryCatch(async (req: Request, res: Response) => {
-  const response = await deleteUser(req.params.id);
-  res.status(204).send(response);
+  await deleteUser(req.params.id);
+  res.status(204).send();
 }));
 
 export default router;

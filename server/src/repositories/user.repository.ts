@@ -11,10 +11,14 @@ export const getUsers = async (): Promise<IUser[]> => {
 };
 
 export const getUserById = async (id: string): Promise<IUser | null> => {
-  await dbConnect();
-  const user = await User.findById(id).exec();
-  await dbClose();
-  return user;
+  try {
+    await dbConnect();
+    const user = await User.findById(id).exec();
+    await dbClose();
+    return user;
+  } catch (error) {
+    throw new BadRequestError();
+  }
 };
 
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
@@ -46,9 +50,12 @@ export const updateUser = async (id: string, data: Partial<IUser>): Promise<IUse
   }
 }
 
-export const deleteUser = async (id: string): Promise<string> => {
-  await dbConnect();
-  await User.findByIdAndRemove(id);
-  await dbClose();
-  return 'user deleted'
+export const deleteUser = async (id: string): Promise<void> => {
+  try {
+    await dbConnect();
+    await User.findByIdAndRemove(id);
+    await dbClose();
+  } catch (error) {
+    throw new BadRequestError();
+  }
 };
