@@ -1,13 +1,13 @@
 version: '3'
 services:
-  mongodb:
+  mongodbProductionDreamyTrip:
     image: mongo:latest
     restart: always
     container_name: 'dreamyTrip'
-    env_file: ./container/containerConfig/mongodb.env
+    env_file: ./containers/dbConfig/mongodb.env
     ports:
       - 27017:27017
     volumes:
-      - ./container/containerConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
-      - ./container/data/mongdb:/data/db
+      - ./containers/dbConfig/initMongo.js:/docker-entrypoint-initdb.d/initMongo.js
+      - ./containers/data/dbConfig/mongdb:/data/db
     command: mongod --logpath=/dev/null # --quiet
