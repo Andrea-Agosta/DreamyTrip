@@ -3,6 +3,8 @@ import { IUser } from "../config/type/userTypes";
 import { dbClose, dbConnect } from "../utils/dbConnection";
 import { BadRequestError } from "../utils/customErrors";
 
+const path = 'src/repositories/user.repository.ts';
+
 export const getUsers = async (): Promise<IUser[]> => {
   await dbConnect();
   const users = await User.find({});
@@ -17,7 +19,10 @@ export const getUserById = async (id: string): Promise<IUser | null> => {
     await dbClose();
     return user;
   } catch (error) {
-    throw new BadRequestError();
+    if (error.message.includes('Cast to ObjectId failed')) {
+      throw new BadRequestError(path, 'getUserById');
+    }
+    throw new Error(error.message);
   }
 };
 
@@ -42,11 +47,14 @@ export const updateUser = async (id: string, data: Partial<IUser>): Promise<IUse
     const user = await User.findByIdAndUpdate(id, data, { new: true });
     await dbClose();
     if (!user) {
-      throw new BadRequestError();
+      throw new BadRequestError(path, 'getUserById');
     }
     return user;
   } catch (error) {
-    throw new BadRequestError();
+    if (error.message.includes('Cast to ObjectId failed')) {
+      throw new BadRequestError(path, 'getUserById');
+    }
+    throw new Error(error.message);
   }
 }
 
@@ -56,6 +64,9 @@ export const deleteUser = async (id: string): Promise<void> => {
     await User.findByIdAndRemove(id);
     await dbClose();
   } catch (error) {
-    throw new BadRequestError();
+    if (error.message.includes('Cast to ObjectId failed')) {
+      throw new BadRequestError(path, 'getUserById');
+    }
+    throw new Error(error.message);
   }
 };

@@ -5,11 +5,12 @@ import { Request } from 'express';
 import { BadRequestError } from '../utils/customErrors';
 
 const saltRounds: number = process.env.SALT ? parseInt(process.env.SALT, 10) : 10;
+const pathFile = 'src/service/auth.service.ts';
 
 export const signup = async (req: Request, email: string, password: string, done: (error: Error | null, user?: IUser) => void) => {
   const checkIfEmailAlreadyExists = await getUserByEmail(email);
   if (checkIfEmailAlreadyExists) {
-    throw new BadRequestError();
+    throw new BadRequestError(pathFile, 'signup');
   }
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashPassword = bcrypt.hashSync(password, salt);
@@ -20,11 +21,11 @@ export const signup = async (req: Request, email: string, password: string, done
 export const login = async (email: string, password: string, done: (error: Error | null, user?: IUser | boolean, info?: { message: string }) => void) => {
   const user = await getUserByEmail(email);
   if (!user) {
-    throw new BadRequestError();
+    throw new BadRequestError(pathFile, 'login');
   }
   const isPasswordValid: boolean = user && bcrypt.compareSync(password, user.password);
   if (!isPasswordValid) {
-    throw new BadRequestError();
+    throw new BadRequestError(pathFile, 'login');
   }
   return done(null, user, { message: 'Logged in Successfully' });
 }

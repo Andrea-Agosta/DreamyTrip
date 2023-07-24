@@ -83,7 +83,7 @@ describe('User Repository', () => {
         password: 'updatepassword',
       };
       await populateDb();
-      expect(updateUser('aaaa', data)).rejects.toThrow(new BadRequestError());
+      expect(updateUser('aaaa', data)).rejects.toThrow(new BadRequestError('test', 'updateUserTestCase'));
     });
   });
 
