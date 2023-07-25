@@ -5,7 +5,7 @@ import { login, signup } from '../service/auth.service';
 import { BadRequestError } from '../utils/customErrors';
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const secretKey: string = process.env.TOP_SECRET || 'defaultSecretKey';
+const secretKey: string | undefined = process.env.TOP_SECRET;
 
 passport.use(
   'signup',
