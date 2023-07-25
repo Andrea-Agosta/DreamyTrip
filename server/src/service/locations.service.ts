@@ -1,54 +1,17 @@
 import { tequilaClient } from "../utils/apiConnection";
-import { ILocationQueryOptions, ILocationResponse } from "../config/type/tequilaType";
+import { ILocationQueryOptions } from "../config/type/tequilaType";
+import { updateLocation } from "../repositories/locations.repository";
 
-export const getLocation = async (queryParams: ILocationQueryOptions, path: string) => {
+
+export const saveLocations = async (queryParams: ILocationQueryOptions, path: string) => {
+  const places = await tequilaClient(queryParams, path);
+  console.log('place length', places.locations.length);
   try {
-    const places = await tequilaClient(queryParams, path);
-    places.locations.forEach((location: ILocationResponse) => {
-      try {
-        updateLocation(location);
-      } catch (error) {
-        addLocation(location);
-      }
-    });
-    if (places.locations.length > 0) {
-
-      //todo: make a recursive call to the API
-      
+    for (const location of places.locations) {
+      await updateLocation(location);
     }
-    console.log(places.locations.length, 'places');
+    console.log('finished saving locations');
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
-
-
-
-
-
-  // .then(async resp => {
-  //   if (resp.status === 200) {
-  //     const msg = 'All location was saved successfully'
-  //     let places = [];
-
-  //     // STORE ALL DATA IN places ARRAY
-  //     await resp.data.locations.forEach(location => {
-  //       places.push(new Location(location));
-  //     });
-
-  //     // SAVE OR UPDATE ALL DATA IN DB
-  //     await places.forEach(place => {
-  //       Location.findOneAndUpdate(
-  //         { name: place.name },
-  //         { $set: place },
-  //         { upsert: true, useFindAndModify: false }, () => { }
-  //       );
-  //     });
-  //     await saveLog(msg, file);
-  //     return resp;
-  //   } else {
-  //     return resp;
-  //   }
-  // });
-
-
 }

@@ -10,6 +10,7 @@ export interface ILocationQueryOptions {
 export interface ILocationResponse {
   "id": string,
   "int_id": string,
+  "airport_int_id": string,
   "active": boolean,
   "code": string,
   "name": string,

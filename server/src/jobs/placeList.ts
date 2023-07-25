@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { getLocation } from "../service/locations.service";
+import { saveLocations } from "../service/locations.service";
 import logger from "../../log/config";
 
 
@@ -16,6 +16,6 @@ export const placesListUpdate = () => {
 
     cron.schedule('0 0 1 * *', () => {
         logger?.info('store Location job start');
-        getLocation(queryParams, path);
+        saveLocations(queryParams, path);
     });
 }
