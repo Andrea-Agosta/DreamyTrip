@@ -5,14 +5,14 @@ import { login, signup } from '../service/auth.service';
 import { BadRequestError } from '../utils/customErrors';
 
 const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const secretKey: string = process.env.TOP_SECRET || 'defaultSecretKey';
+const secretKey: string | undefined = process.env.TOP_SECRET;
 
 passport.use(
   'signup',
   new LocalStrategy({ usernameField: 'email', passwordField: 'password', passReqToCallback: true }, async (req, email, password, done) => {
     try {
       if (!emailRegex.test(email) || !password || !req.body.name || !req.body.surname || !req.body.country) {
-        throw new BadRequestError();
+        throw new BadRequestError('src/controller/auth.controlle.ts', 'signup');
       }
       return await signup(req, email, password, done);
     } catch (error) {

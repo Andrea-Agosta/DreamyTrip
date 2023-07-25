@@ -6,13 +6,15 @@ import express, { Application, Request, Response } from 'express';
 import user from './api/user';
 import auth from './api/auth';
 import { errorHandler } from './middleware/errorHandler';
-
+import { placesListUpdate } from './jobs/placeList';
 
 const app: Application = express();
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+placesListUpdate();
 
 app.use('/api/user', user);
 app.use('/api/auth', auth);
