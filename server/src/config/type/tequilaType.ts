@@ -9,21 +9,32 @@ export interface ILocationQueryOptions {
 
 export interface ILocationResponse {
   "id": string,
-  "int_id": string,
-  "airport_int_id": string,
+  "int_id": number,
+  "airport_int_id": number,
   "active": boolean,
   "code": string,
+  "icao": string,
+  "slug_en": string,
+  "alternative_names": string[],
   "name": string,
   "slug": string,
-  "rank": string,
+  "rank": number,
+  "global_rank_dst": number,
+  "dst_popularity_score": number,
   "timezone": string,
   "city": {
     "id": string,
     "name": string,
     "code": string,
     "slug": string,
-    "subdivision": string,
-    "autonomous_territory": string,
+    "subdivision": {
+      "id": string,
+      "name": string,
+      "slug": string,
+      "code": string
+    } | null,
+    "autonomous_territory": string | null,
+    "nearby_country": null,
     "country": {
       "id": string,
       "name": string,
@@ -43,9 +54,15 @@ export interface ILocationResponse {
     }
   },
   "location": {
-    "lon": string,
-    "lat": string
+    "lon": number,
+    "lat": number
   },
-  "alternative_departure_points": string[],
+  "alternative_departure_points": [
+    {
+      "id": string,
+      "distance": number,
+      "duration": number
+    }
+  ],
   "type": string
 }

@@ -3,14 +3,14 @@ import mongoose, { Schema } from "mongoose";
 
 const locationSchema = new Schema({
   "id": String,
-  "int_id": String,
-  "airport_int_id": String,
+  "int_id": Number,
+  "airport_int_id": Number,
   "active": Boolean,
   "code": String,
   "name": String,
   "slug": String,
   "alternative_names": [String],
-  "rank": String,
+  "rank": Number,
   "timezone": String,
   "city": {
     "id": String,
