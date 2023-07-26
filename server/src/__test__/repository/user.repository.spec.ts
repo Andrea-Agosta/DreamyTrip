@@ -1,4 +1,4 @@
-import { BadRequestError } from '@src/utils/customErrors';
+import { BadRequestError } from '../../utils/customErrors';
 import { createUser, getUserByEmail, getUserById, getUsers, updateUser, deleteUser } from '../../repositories/user.repository';
 import { populateDb, users } from '../utils/test-user-data';
 

@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "../app";
 import { users } from "./utils/test-user-data";
 
+jest.mock('../jobs/placeList');
 jest.mock('../utils/dbConnection.ts');
 
 const updateUser = {
