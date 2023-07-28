@@ -1,4 +1,4 @@
-import { getLocations, updateLocation } from "../../repositories/locations.repository";
+import { getLocations, updateLocation } from "../../repositories/location.repository";
 import { location } from "../utils/test-location-data";
 
 jest.mock('../../utils/dbConnection.ts');

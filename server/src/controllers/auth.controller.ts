@@ -12,7 +12,7 @@ passport.use(
   new LocalStrategy({ usernameField: 'email', passwordField: 'password', passReqToCallback: true }, async (req, email, password, done) => {
     try {
       if (!emailRegex.test(email) || !password || !req.body.name || !req.body.surname || !req.body.country) {
-        throw new BadRequestError('src/controller/auth.controlle.ts', 'signup');
+        throw new BadRequestError('src/controllers/auth.controlle.ts', 'signup');
       }
       return await signup(req, email, password, done);
     } catch (error) {

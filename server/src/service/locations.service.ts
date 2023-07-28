@@ -1,6 +1,6 @@
 import { tequilaClient } from "../utils/apiConnection";
 import { ILocationQueryOptions } from "../config/type/tequilaType";
-import { updateLocation } from "../repositories/locations.repository";
+import { updateLocation } from "../repositories/location.repository";
 
 
 export const saveLocations = async (queryParams: ILocationQueryOptions, path: string) => {
