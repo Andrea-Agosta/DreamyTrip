@@ -23,23 +23,6 @@ app.use('/api/user', user);
 app.use('/api/auth', auth);
 app.use('/api/flight/search', searchFlight);
 
-app.get("/temp", (_req: Request, res: Response) => {
-  // const queryParams = {
-  //   locale: 'en-US',
-  //   location_types: 'airport',
-  //   limit: 10000,
-  //   sort: 'name',
-  //   active_only: false,
-  //   search_after: []
-  // }
-  // const path = '/locations/dump';
-  // const place = saveLocations(queryParams, path);
-  getLocations().then((locations) => {
-    res.json(locations);
-  });
-  // res.json(place);
-});
-
 app.get("/", (_req: Request, res: Response) => {
   res.json({ "message": "Read our documentation for more details" })
 });
