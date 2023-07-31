@@ -8,8 +8,7 @@ import auth from './api/auth';
 import searchFlight from './api/searchFlight';
 import { errorHandler } from './middleware/errorHandler';
 import { placesListUpdate } from './jobs/placeList';
-import { getLocations } from './repositories/location.repository';
-// import { saveLocations } from './service/locations.service';
+
 
 const app: Application = express();
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
