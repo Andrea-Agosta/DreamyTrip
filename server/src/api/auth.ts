@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import express, { NextFunction, Request, Response } from 'express';
 import { IUser } from '../config/type/userTypes';
 import { tryCatch } from '../utils/tryCatch';
-import '../controller/auth.controller';
+import '../controllers/auth.controller';
 
 
 const router = express.Router();

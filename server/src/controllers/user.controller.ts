@@ -6,7 +6,7 @@ import { updateUser as updateUserService } from '../service/user.service';
 import { deleteUser as deleteUserService } from '../service/user.service';
 import { BadRequestError } from '../utils/customErrors';
 
-const pathFile = 'src/controller/user.controller.ts';
+const pathFile = 'src/controllers/user.controller.ts';
 
 export const getUsers = async (): Promise<IUser[]> => {
   return await getUsersService();

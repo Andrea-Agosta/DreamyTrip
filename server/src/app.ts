@@ -5,8 +5,10 @@ import express, { Application, Request, Response } from 'express';
 // import passport from 'passport';
 import user from './api/user';
 import auth from './api/auth';
+import searchFlight from './api/searchFlight';
 import { errorHandler } from './middleware/errorHandler';
 import { placesListUpdate } from './jobs/placeList';
+
 
 const app: Application = express();
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
@@ -18,6 +20,7 @@ placesListUpdate();
 
 app.use('/api/user', user);
 app.use('/api/auth', auth);
+app.use('/api/flight/search', searchFlight);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ "message": "Read our documentation for more details" })
