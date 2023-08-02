@@ -79,17 +79,17 @@ const isValidFlyDays = (days: string | undefined, daysType: string | undefined):
   return areAllDaysValid && (daysType === 'departure' || daysType === 'arrival');
 };
 
-export const isValidHourFormat = (hour: string | undefined): boolean => {
+ const isValidHourFormat = (hour: string | undefined): boolean => {
   const hourRegex = /^(0\d|1\d|2[0-3]):[0-5]\d$/;
   return !hour || hourRegex.test(hour);
 };
 
-export const isValidStopoverFormat = (stopover: string | undefined): boolean => {
+const isValidStopoverFormat = (stopover: string | undefined): boolean => {
   const stopoverRegex = /^\d{1,9}:[0-5]\d$$/;
   return !stopover || stopoverRegex.test(stopover);
 };
 
-export const isZeroOrOne = (value: number | undefined): boolean => {
+const isZeroOrOne = (value: number | undefined): boolean => {
   return !value || (value === 0 || value === 1);
 };
 
@@ -101,6 +101,15 @@ export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]
     isDateValid(req.body.date_to) &&
     isBefore(parse(req.body.date_from, 'MM-dd-yyyy', new Date()), parse(req.body.date_to, 'MM-dd-yyyy', new Date())) &&
     isAfter(parse(req.body.date_from, 'MM-dd-yyyy', new Date()), parse(yesterday, 'MM-dd-yyyy', new Date())) &&
+    (
+      !req.body.return_from && !req.body.return_to ||
+      (
+        isDateValid(req.body.return_from) &&
+        isDateValid(req.body.return_to) &&
+        isAfter(parse(req.body.return_from, 'MM-dd-yyyy', new Date()), parse(req.body.date_to, 'MM-dd-yyyy', new Date())) &&
+        isAfter(parse(req.body.return_to, 'MM-dd-yyyy', new Date()), parse(req.body.return_from, 'MM-dd-yyyy', new Date()))
+      )
+    ) &&
     isNight_in_dst(req.body.nights_in_dst_from, req.body.nights_in_dst_to) &&
     isPositiveNum(req.body.max_fly_duration) &&
     isPositiveNum(req.body.one_for_city) &&

@@ -1,4 +1,4 @@
-import { add, format, startOfToday } from 'date-fns'
+import { add, format, startOfToday, startOfYesterday } from 'date-fns'
 import { ISearchFlightRequest } from '../../config/type/tequilaType';
 import { Request } from 'express';
 import * as controller from '../../controllers/searchFlight.controller';
@@ -100,8 +100,108 @@ describe('searchFlight controller test', () => {
   });
 
   describe('failed request', () => {
-    it('request failed vrong value in date_from ', async () => {
+    it('request failed wrong value in date_from ', async () => {
       const failedRequest = { ...requiredData, date_from: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed wrong value in date_to ', async () => {
+      const failedRequest = { ...requiredData, date_to: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed date_from it is before of today', async () => {
+      const failedRequest = { ...requiredData, date_from: startOfYesterday() };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed date_to it is before of date_from', async () => {
+      const failedRequest = { ...requiredData, date_to: startOfYesterday(), date_from: startOfToday() };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed wrong value in return_from ', async () => {
+      const failedRequest = { ...requiredData, return_from: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed wrong value in return_to ', async () => {
+      const failedRequest = { ...requiredData, return_to: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed return_from it is before of date_to', async () => {
+      const failedRequest = { ...requiredData, return_from: startOfToday() };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed return_to it is before of return_from', async () => {
+      const failedRequest = {
+        ...requiredData,
+        return_from: `${format(add(startOfToday(), { weeks: 1, days: 3 }), 'MM-dd-yyyy')}`,
+        return_to: `${format(add(startOfToday(), { weeks: 1, days: 1 }), 'MM-dd-yyyy')}`
+      };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed nights_in_dst_from is defined but not nights_in_dst_to', async () => {
+      const failedRequest = { ...requiredData, nights_in_dst_from: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed nights_in_dst_to is defined but not nights_in_dst_from', async () => {
+      const failedRequest = { ...requiredData, nights_in_dst_to: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed nights_in_dst_from is minor of 0', async () => {
+      const failedRequest = { ...requiredData, nights_in_dst_from: -2, nights_in_dst_to: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed nights_in_dst_to is minor of nights_in_dst_from', async () => {
+      const failedRequest = { ...requiredData, nights_in_dst_from: 3, nights_in_dst_to: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('request failed is isPositiveNum function receive a negative number', async () => {
+      const failedRequest = { ...requiredData, max_fly_duration: -3 };
       const req: Request = {
         body: failedRequest,
       } as Request;
