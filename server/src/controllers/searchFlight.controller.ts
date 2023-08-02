@@ -1,4 +1,4 @@
-import { parseISO, isBefore, startOfToday, isAfter } from 'date-fns';
+import { isBefore, isAfter, parse, isValid, startOfYesterday, format } from 'date-fns';
 import { ISearchFlightsResponse } from "../config/type/tequilaType";
 import { Request } from 'express';
 import { BadRequestError } from "../utils/customErrors";
@@ -11,6 +11,16 @@ const isNight_in_dst = (from: number, to: number): boolean => !from && !to || (f
 const isPositiveNum = (value: number): boolean => !value || value >= 0;
 const ispartner_market = (market: string) => (!market || countryCodes.includes(market));
 const isCurrency = (currency: string) => (!currency || currenciesList.includes(currency));
+
+const isDateValid = (dateStr: string): boolean => {
+  const potentialFormats = ['MM-dd-yyyy', 'MM/dd/yyyy', 'yyyy-MM-dd', 'yyyy/MM/dd'];
+
+  for (const potentialFormat of potentialFormats) {
+    const parsedDate = parse(dateStr, potentialFormat, new Date(), { useAdditionalWeekYearTokens: false });
+    return isValid(parsedDate) && true;
+  }
+  return false;
+}
 
 const isValidCabin = (cabin?: string, mix?: string): boolean => {
   const validCabinValues = new Set(['M', 'W', 'C', 'F']);
@@ -85,12 +95,12 @@ export const isZeroOrOne = (value: number | undefined): boolean => {
 
 
 export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]> => {
-  const today: Date = startOfToday();
+  const yesterday: string = format(startOfYesterday(), 'MM-dd-yyyy');
   if (
-    parseISO(req.body.date_from) &&
-    parseISO(req.body.date_to) &&
-    isBefore(req.body.date_from, req.body.date_to) &&
-    isAfter(req.body.date_from, today) &&
+    isDateValid(req.body.date_from) &&
+    isDateValid(req.body.date_to) &&
+    isBefore(parse(req.body.date_from, 'MM-dd-yyyy', new Date()), parse(req.body.date_to, 'MM-dd-yyyy', new Date())) &&
+    isAfter(parse(req.body.date_from, 'MM-dd-yyyy', new Date()), parse(yesterday, 'MM-dd-yyyy', new Date())) &&
     isNight_in_dst(req.body.nights_in_dst_from, req.body.nights_in_dst_to) &&
     isPositiveNum(req.body.max_fly_duration) &&
     isPositiveNum(req.body.one_for_city) &&
@@ -100,7 +110,7 @@ export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]
     isValidFlyDays(req.body.fly_days, req.body.fly_days_type) && isValidFlyDays(req.body.ret_fly_days, req.body.ret_fly_days_type) &&
     ispartner_market(req.body.partner_market) &&
     isCurrency(req.body.curr) &&
-    req.body.locale || req.body.locale === 'en' &&
+    !req.body.locale || req.body.locale === 'en' &&
     isValidHourFormat(req.body.dtime_from) && isValidHourFormat(req.body.dtime_to) && isValidHourFormat(req.body.atime_from) && isValidHourFormat(req.body.atime_to) &&
     isValidHourFormat(req.body.ret_dtime_from) && isValidHourFormat(req.body.ret_dtime_to) && isValidHourFormat(req.body.ret_atime_from) && isValidHourFormat(req.body.ret_atime_to) &&
     isValidStopoverFormat(req.body.stopover_from) && isValidStopoverFormat(req.body.stopover_to) &&
@@ -111,7 +121,7 @@ export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]
     (!req.body.sort || req.body.sort === 'price' || req.body.sort === 'duration' || req.body.sort === 'quality' || req.body.sort === 'date') &&
     !req.body.limit || (req.body.limit >= 1 && req.body.limit <= 1000)
   ) {
-    return getFlightsService(req);
+    return await getFlightsService(req);
   }
   throw new BadRequestError('src/controllers/searchFlight.controller.ts', 'getFlights');
 };

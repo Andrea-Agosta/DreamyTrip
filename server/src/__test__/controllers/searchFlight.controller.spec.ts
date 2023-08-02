@@ -1,24 +1,25 @@
-import startOfToday from 'date-fns/startOfToday'
-import { add } from 'date-fns';
-import { getFlights } from "../../service/searchFlight.service";
+import { add, format, startOfToday } from 'date-fns'
 import { ISearchFlightRequest } from '../../config/type/tequilaType';
 import { Request } from 'express';
+import * as controller from '../../controllers/searchFlight.controller';
+import * as searchFlightService from '../../service/searchFlight.service';
+import { BadRequestError } from '../../utils/customErrors';
 
 jest.mock('../../service/searchFlight.service.ts');
 
 const requiredData: ISearchFlightRequest = {
   fly_from: "ARN",
-  date_from: `${startOfToday()}`,
-  date_to: `${add(startOfToday(), { weeks: 1 })}`
+  date_from: `${format(startOfToday(), 'MM-dd-yyyy')}`,
+  date_to: `${format(add(startOfToday(), { weeks: 1 }), 'MM-dd-yyyy')}`
 }
 
 const data = {
   fly_from: 'ARN',
   fly_to: 'CDG',
-  date_from: `${startOfToday()}`,
-  date_to: `${add(startOfToday(), { weeks: 1 })}`,
-  return_from: `${add(startOfToday(), { weeks: 1, days: 1 })}`,
-  return_to: `${add(startOfToday(), { weeks: 1, days: 3 })}`,
+  date_from: `${format(startOfToday(), 'MM-dd-yyyy')}`,
+  date_to: `${format(add(startOfToday(), { weeks: 1 }), 'MM-dd-yyyy')}`,
+  return_from: `${format(add(startOfToday(), { weeks: 1, days: 1 }), 'MM-dd-yyyy')}`,
+  return_to: `${format(add(startOfToday(), { weeks: 1, days: 3 }), 'MM-dd-yyyy')}`,
   nights_in_dst_from: 2,
   nights_in_dst_to: 3,
   max_fly_duration: 20,
@@ -72,34 +73,40 @@ const data = {
 }
 
 describe('searchFlight controller test', () => {
-  const mockService = getFlights as jest.Mock;
-
   beforeEach(() => {
-    mockService.mockClear();
+    jest.clearAllMocks();
+
+    const mockGetFlightsService = jest.spyOn(searchFlightService, 'getFlights');
+    const mockResponse = 'Service called successfully';
+    mockGetFlightsService.mockResolvedValue(Promise.resolve(mockResponse as any));
   });
 
   describe('successufull request', () => {
     it('controller pass successfully with required data', async () => {
-      mockService.mockResolvedValue('Service called successfully');
       const req: Request = {
         body: requiredData,
       } as Request;
 
-      expect(await getFlights(req)).toBe('Service called successfully');
+      expect(await controller.getFlights(req)).toBe('Service called successfully');
     });
 
     it('controller pass successfully with all data', async () => {
-      mockService.mockResolvedValue('Service called successfully');
       const req: Request = {
         body: data,
       } as Request;
 
-      expect(await getFlights(req)).toBe('Service called successfully');
+      expect(await controller.getFlights(req)).toBe('Service called successfully');
     });
-
   });
 
   describe('failed request', () => {
+    it('request failed vrong value in date_from ', async () => {
+      const failedRequest = { ...requiredData, date_from: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
 
   });
 });
