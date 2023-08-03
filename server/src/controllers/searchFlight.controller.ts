@@ -24,7 +24,10 @@ const isDateValid = (dateStr: string): boolean => {
 
 const isValidCabin = (cabin?: string, mix?: string): boolean => {
   const validCabinValues = new Set(['M', 'W', 'C', 'F']);
-  return !cabin || validCabinValues.has(cabin) && (!mix || validCabinValues.has(mix));
+  if (mix !== undefined) {
+    return cabin !== undefined && validCabinValues.has(cabin) && validCabinValues.has(mix);
+  }
+  return !cabin || validCabinValues.has(cabin);
 }
 
 const isPassengersAndLuggage = (
@@ -66,21 +69,17 @@ const isValidFlyDays = (days: string | undefined, daysType: string | undefined):
     return true;
   }
 
-  const regex = /(\d+)/g;
-  const flyDays = (days?.match(regex) || []).map(Number);
+  const regex = /^&fly_days=([0-7])(?:&fly_days=([0-7]))*$/;
+  const isValidFormat = regex.test(days || '');
 
-  const isValidDay = (day: number) => day >= 0 && day <= 6;
-  const areAllDaysValid = flyDays.every(isValidDay);
-
-  if (!daysType) {
-    return areAllDaysValid;
+  if (isValidFormat && daysType) {
+    return daysType === 'departure' || daysType === 'arrival';
   }
-
-  return areAllDaysValid && (daysType === 'departure' || daysType === 'arrival');
+  return false;
 };
 
- const isValidHourFormat = (hour: string | undefined): boolean => {
-  const hourRegex = /^(0\d|1\d|2[0-3]):[0-5]\d$/;
+const isValidHourFormat = (hour: string | undefined): boolean => {
+  const hourRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
   return !hour || hourRegex.test(hour);
 };
 
@@ -119,7 +118,7 @@ export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]
     isValidFlyDays(req.body.fly_days, req.body.fly_days_type) && isValidFlyDays(req.body.ret_fly_days, req.body.ret_fly_days_type) &&
     ispartner_market(req.body.partner_market) &&
     isCurrency(req.body.curr) &&
-    !req.body.locale || req.body.locale === 'en' &&
+    (!req.body.locale || req.body.locale === 'en') &&
     isValidHourFormat(req.body.dtime_from) && isValidHourFormat(req.body.dtime_to) && isValidHourFormat(req.body.atime_from) && isValidHourFormat(req.body.atime_to) &&
     isValidHourFormat(req.body.ret_dtime_from) && isValidHourFormat(req.body.ret_dtime_to) && isValidHourFormat(req.body.ret_atime_from) && isValidHourFormat(req.body.ret_atime_to) &&
     isValidStopoverFormat(req.body.stopover_from) && isValidStopoverFormat(req.body.stopover_to) &&
@@ -128,7 +127,7 @@ export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]
     isZeroOrOne(req.body.conn_on_diff_airport) && isZeroOrOne(req.body.ret_from_diff_airport) && isZeroOrOne(req.body.ret_to_diff_airport) &&
     (!req.body.vehicle_type || req.body.vehicle_type === 'aircraft' || req.body.vehicle_type === 'bus' || req.body.vehicle_type === 'train') &&
     (!req.body.sort || req.body.sort === 'price' || req.body.sort === 'duration' || req.body.sort === 'quality' || req.body.sort === 'date') &&
-    !req.body.limit || (req.body.limit >= 1 && req.body.limit <= 1000)
+    !req.body.limit || (req.body.limit >= 1)
   ) {
     return await getFlightsService(req);
   }

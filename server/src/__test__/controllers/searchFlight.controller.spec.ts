@@ -100,7 +100,7 @@ describe('searchFlight controller test', () => {
   });
 
   describe('failed request', () => {
-    it('request failed wrong value in date_from ', async () => {
+    it('wrong value in date_from ', async () => {
       const failedRequest = { ...requiredData, date_from: 'wrong value' };
       const req: Request = {
         body: failedRequest,
@@ -108,7 +108,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed wrong value in date_to ', async () => {
+    it('wrong value in date_to ', async () => {
       const failedRequest = { ...requiredData, date_to: 'wrong value' };
       const req: Request = {
         body: failedRequest,
@@ -116,7 +116,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed date_from it is before of today', async () => {
+    it('date_from it is before of today', async () => {
       const failedRequest = { ...requiredData, date_from: startOfYesterday() };
       const req: Request = {
         body: failedRequest,
@@ -124,7 +124,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed date_to it is before of date_from', async () => {
+    it('date_to it is before of date_from', async () => {
       const failedRequest = { ...requiredData, date_to: startOfYesterday(), date_from: startOfToday() };
       const req: Request = {
         body: failedRequest,
@@ -132,7 +132,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed wrong value in return_from ', async () => {
+    it('wrong value in return_from ', async () => {
       const failedRequest = { ...requiredData, return_from: 'wrong value' };
       const req: Request = {
         body: failedRequest,
@@ -140,7 +140,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed wrong value in return_to ', async () => {
+    it('wrong value in return_to ', async () => {
       const failedRequest = { ...requiredData, return_to: 'wrong value' };
       const req: Request = {
         body: failedRequest,
@@ -148,7 +148,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed return_from it is before of date_to', async () => {
+    it('return_from it is before of date_to', async () => {
       const failedRequest = { ...requiredData, return_from: startOfToday() };
       const req: Request = {
         body: failedRequest,
@@ -156,7 +156,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed return_to it is before of return_from', async () => {
+    it('return_to it is before of return_from', async () => {
       const failedRequest = {
         ...requiredData,
         return_from: `${format(add(startOfToday(), { weeks: 1, days: 3 }), 'MM-dd-yyyy')}`,
@@ -168,7 +168,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed nights_in_dst_from is defined but not nights_in_dst_to', async () => {
+    it('nights_in_dst_from is defined but not nights_in_dst_to', async () => {
       const failedRequest = { ...requiredData, nights_in_dst_from: 2 };
       const req: Request = {
         body: failedRequest,
@@ -176,7 +176,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed nights_in_dst_to is defined but not nights_in_dst_from', async () => {
+    it('nights_in_dst_to is defined but not nights_in_dst_from', async () => {
       const failedRequest = { ...requiredData, nights_in_dst_to: 2 };
       const req: Request = {
         body: failedRequest,
@@ -184,7 +184,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed nights_in_dst_from is minor of 0', async () => {
+    it('nights_in_dst_from is minor of 0', async () => {
       const failedRequest = { ...requiredData, nights_in_dst_from: -2, nights_in_dst_to: 2 };
       const req: Request = {
         body: failedRequest,
@@ -192,7 +192,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed nights_in_dst_to is minor of nights_in_dst_from', async () => {
+    it('nights_in_dst_to is minor of nights_in_dst_from', async () => {
       const failedRequest = { ...requiredData, nights_in_dst_from: 3, nights_in_dst_to: 2 };
       const req: Request = {
         body: failedRequest,
@@ -200,7 +200,7 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
-    it('request failed is isPositiveNum function receive a negative number', async () => {
+    it('is isPositiveNum function receive a negative number', async () => {
       const failedRequest = { ...requiredData, max_fly_duration: -3 };
       const req: Request = {
         body: failedRequest,
@@ -208,5 +208,204 @@ describe('searchFlight controller test', () => {
       expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
     });
 
+    it('number of passengers are less than 1', async () => {
+      const failedRequest = { ...requiredData, adults: -3 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('number of passengers are greater than 9', async () => {
+      const failedRequest = { ...requiredData, adults: 4, children: 4, infants: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adults are less than infants', async () => {
+      const failedRequest = { ...requiredData, adults: 1, infants: 4 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('selected_cabins wrong value', async () => {
+      const failedRequest = { ...requiredData, selected_cabins: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('mix_with_cabins id declered but selected_cabins is undefined', async () => {
+      const failedRequest = { ...requiredData, mix_with_cabins: 'C' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('mix_with_cabins have a wrong value', async () => {
+      const failedRequest = { ...requiredData, mix_with_cabins: 'wrong value', selected_cabins: 'C' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adult_hold_bag have a wrong value', async () => {
+      const failedRequest = { ...requiredData, adult_hold_bag: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adult_hold_bag have more than 2 baggage for adults', async () => {
+      const failedRequest = { ...requiredData, adult_hold_bag: '2,3', adults: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adult_hold_bag have more baggage than adults', async () => {
+      const failedRequest = { ...requiredData, adult_hold_bag: '2,1,1', adults: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adult_hand_bag have a wrong value', async () => {
+      const failedRequest = { ...requiredData, adult_hand_bag: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adult_hand_bag have more than 1 baggage for adults', async () => {
+      const failedRequest = { ...requiredData, adult_hand_bag: '2,3', adults: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('adult_hand_bag have more baggage than adults', async () => {
+      const failedRequest = { ...requiredData, adult_hand_bag: '1,1,1', adults: 2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('fly_days have a wrong value', async () => {
+      const failedRequest = { ...requiredData, fly_days: 'wrong value', ret_fly_days_type: 'departure' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('ret_fly_days_type have a wrong value', async () => {
+      const failedRequest = { ...requiredData, fly_days: '&ret_fly_days=0', ret_fly_days_type: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('partner_market have a wrong value', async () => {
+      const failedRequest = { ...requiredData, partner_market: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('curr have a wrong value', async () => {
+      const failedRequest = { ...requiredData, curr: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('locale have a wrong value', async () => {
+      const failedRequest = { ...requiredData, locale: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('dtime_from have a wrong value', async () => {
+      const failedRequest = { ...requiredData, dtime_from: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('stopover_from have a wrong value', async () => {
+      const failedRequest = { ...requiredData, stopover_from: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('max_stopovers have a negative value', async () => {
+      const failedRequest = { ...requiredData, max_stopovers: -2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('conn_on_diff_airport have a negative value', async () => {
+      const failedRequest = { ...requiredData, conn_on_diff_airport: -2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('conn_on_diff_airport have a value grater than 2', async () => {
+      const failedRequest = { ...requiredData, conn_on_diff_airport: 4 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('vehicle_type have a wrong value', async () => {
+      const failedRequest = { ...requiredData, vehicle_type: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('sort have a wrong value', async () => {
+      const failedRequest = { ...requiredData, sort: 'wrong value' };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
+
+    it('limit have a negative value', async () => {
+      const failedRequest = { ...requiredData, limit: -2 };
+      const req: Request = {
+        body: failedRequest,
+      } as Request;
+      expect(async () => await controller.getFlights(req)).rejects.toThrowError(BadRequestError);
+    });
   });
 });
