@@ -1,5 +1,5 @@
-import { getLocations, updateLocation } from "../../repositories/location.repository";
-import { location } from "../utils/test-location-data";
+import { getLocations, updateLocation } from '../../repositories/location.repository';
+import { location } from '../utils/test-location-data';
 
 jest.mock('../../utils/dbConnection.ts');
 
@@ -18,7 +18,7 @@ describe('Location Repository', () => {
   it('Save new Location', async () => {
     const customLocation = { ...location, name: 'customName' };
     await updateLocation(customLocation);
-    const response = await getLocations()
+    const response = await getLocations();
     expect(response[0]?.name).toBe(customLocation.name);
   });
 });

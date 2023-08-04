@@ -21,7 +21,7 @@ export const users = [
     country: 'SE',
     email: 'mary@example.com',
     password: 'topsecret',
-  }
+  },
 ];
 
 export const populateDb = async () => {
@@ -30,7 +30,7 @@ export const populateDb = async () => {
     if (user) {
       await createUser(user.name, user.surname, user.country, user.email, user.password);
     } else {
-      throw new Error("Impossible to popultae DB");
+      throw new Error('Impossible to popultae DB');
     }
   }
-}
+};

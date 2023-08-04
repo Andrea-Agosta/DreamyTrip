@@ -23,7 +23,7 @@ describe('User Repository', () => {
       expect(user?.email).toBe(users[1]?.email);
       expect(user?.password).toBe(users[1]?.password);
     } else {
-      throw new Error("get user by ID failed");
+      throw new Error('get user by ID failed');
     }
   });
 
@@ -47,7 +47,7 @@ describe('User Repository', () => {
       expect(response.email).toBe(user.email);
       expect(response.password).toBe(user.password);
     } else {
-      throw new Error("create user failed");
+      throw new Error('create user failed');
     }
   });
 
@@ -70,7 +70,7 @@ describe('User Repository', () => {
         expect(updateUserResp.email).toBe(data.email);
         expect(updateUserResp.password).toBe(data.password);
       } else {
-        throw new Error("User update failed");
+        throw new Error('User update failed');
       }
     });
 

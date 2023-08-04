@@ -4,7 +4,7 @@ import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 import { login, signup } from '../service/auth.service';
 import { BadRequestError } from '../utils/customErrors';
 
-const emailRegex: RegExp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const emailRegex: RegExp = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const secretKey: string | undefined = process.env.TOP_SECRET;
 
 passport.use(
@@ -18,7 +18,7 @@ passport.use(
     } catch (error) {
       return done(error);
     }
-  })
+  }),
 );
 
 passport.use(
@@ -29,7 +29,7 @@ passport.use(
     } catch (error) {
       return done(error);
     }
-  })
+  }),
 );
 
 passport.use(
@@ -39,7 +39,7 @@ passport.use(
     } catch (error) {
       done(error);
     }
-  })
+  }),
 );
 
 export default passport;

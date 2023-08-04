@@ -1,6 +1,6 @@
-import request from "supertest";
-import app from "../app";
-import { users } from "./utils/test-user-data";
+import request from 'supertest';
+import app from '../app';
+import { users } from './utils/test-user-data';
 
 jest.mock('../jobs/placeList');
 jest.mock('../utils/dbConnection.ts');
@@ -16,37 +16,37 @@ const updateUser = {
 const addUserToDb = () =>
   request(app)
     .post('/api/auth/signup')
-    .set("Accept", "application/json")
+    .set('Accept', 'application/json')
     .send(users[0])
-    .expect("Content-Type", /json/);
+    .expect('Content-Type', /json/);
 
 const getUsers = (path: string) =>
   request(app)
     .get(path)
-    .set("Accept", "application/json")
-    .expect("Content-Type", /json/);
+    .set('Accept', 'application/json')
+    .expect('Content-Type', /json/);
 
 const patchUser = (path: string) =>
   request(app)
     .patch(path)
-    .set("Accept", "application/json")
+    .set('Accept', 'application/json')
     .send(updateUser)
-    .expect("Content-Type", /json/);
+    .expect('Content-Type', /json/);
 
 const deleteUser = (path: string) =>
   request(app)
     .delete(path)
-    .set("Accept", "application/json")
+    .set('Accept', 'application/json');
 
-describe("Dreamy Flight User", () => {
+describe('Dreamy Flight User', () => {
 
   beforeEach(async () => {
     await addUserToDb();
   });
 
-  describe("successufull request", () => {
+  describe('successufull request', () => {
 
-    it("Get all users", async () => {
+    it('Get all users', async () => {
       return await getUsers('/api/user/')
         .expect(200)
         .then(response => {
@@ -55,7 +55,7 @@ describe("Dreamy Flight User", () => {
         });
     });
 
-    it("Get users by id", async () => {
+    it('Get users by id', async () => {
       const user = await getUsers('/api/user/');
       return await getUsers(`/api/user/${user.body[0]._id}`)
         .expect(200)
@@ -67,7 +67,7 @@ describe("Dreamy Flight User", () => {
         });
     });
 
-    it("Update users by id", async () => {
+    it('Update users by id', async () => {
       const user = await getUsers('/api/user/');
       return patchUser(`/api/user/${user.body[0]._id}`)
         .expect(200)
@@ -79,7 +79,7 @@ describe("Dreamy Flight User", () => {
         });
     });
 
-    it("Delete users by id", async () => {
+    it('Delete users by id', async () => {
       const user = await getUsers('/api/user/');
       return await deleteUser(`/api/user/${user.body[0]._id}`)
         .expect(204)
@@ -90,29 +90,29 @@ describe("Dreamy Flight User", () => {
     });
   });
 
-  describe("Fail request", () => {
+  describe('Fail request', () => {
 
-    it("GET error with a wrong id", async () => {
-      return await getUsers(`/api/user/wrongId`)
+    it('GET error with a wrong id', async () => {
+      return await getUsers('/api/user/wrongId')
         .expect(400)
         .then(response => {
-          expect(response.body).toStrictEqual({ "message": "Bad request" });
+          expect(response.body).toStrictEqual({ 'message': 'Bad request' });
         });
     });
 
-    it("PATCH error with a wrong id", async () => {
-      return await patchUser(`/api/user/wrongId`)
+    it('PATCH error with a wrong id', async () => {
+      return await patchUser('/api/user/wrongId')
         .expect(400)
         .then(response => {
-          expect(response.body).toStrictEqual({ "message": "Bad request" });
+          expect(response.body).toStrictEqual({ 'message': 'Bad request' });
         });
     });
 
-    it("DELETE error with a wrong id", async () => {
-      return await deleteUser(`/api/user/wrongId`)
+    it('DELETE error with a wrong id', async () => {
+      return await deleteUser('/api/user/wrongId')
         .expect(400)
         .then(response => {
-          expect(response.body).toStrictEqual({ "message": "Bad request" });
+          expect(response.body).toStrictEqual({ 'message': 'Bad request' });
         });
     });
   });

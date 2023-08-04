@@ -1,6 +1,6 @@
-import { ILocationResponse } from "../config/type/tequilaType";
-import { dbClose, dbConnect } from "../utils/dbConnection";
-import { Location } from "../models/locationModel";
+import { ILocationResponse } from '../config/type/tequilaType';
+import { dbClose, dbConnect } from '../utils/dbConnection';
+import { Location } from '../models/locationModel';
 
 export const getLocations = async () => {
   try {
@@ -16,9 +16,9 @@ export const getLocations = async () => {
 export const updateLocation = async (location: ILocationResponse) => {
   try {
     await dbConnect();
-    await Location.findOneAndUpdate({ "airport_int_id": location.airport_int_id }, location, {
+    await Location.findOneAndUpdate({ 'airport_int_id': location.airport_int_id }, location, {
       new: true,
-      upsert: true
+      upsert: true,
     });
     await dbClose();
   } catch (error) {

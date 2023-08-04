@@ -22,8 +22,8 @@ app.use('/api/user', user);
 app.use('/api/auth', auth);
 app.use('/api/flight/search', searchFlight);
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ "message": "Read our documentation for more details" })
+app.get('/', (_req: Request, res: Response) => {
+  res.json({ 'message': 'Read our documentation for more details' });
 });
 
 app.use(errorHandler);

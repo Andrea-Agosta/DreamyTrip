@@ -5,7 +5,7 @@ beforeEach(async () => {
     await mongoose.connect(process.env.MONGO_URL_TEST);
     await mongoose.connection.dropDatabase();
   } else {
-    throw new Error("MONGO_URL_TEST is not set");
+    throw new Error('MONGO_URL_TEST is not set');
   }
 });
 

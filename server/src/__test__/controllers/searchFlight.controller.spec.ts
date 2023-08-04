@@ -1,4 +1,4 @@
-import { add, format, startOfToday, startOfYesterday } from 'date-fns'
+import { add, format, startOfToday, startOfYesterday } from 'date-fns';
 import { ISearchFlightRequest } from '../../config/type/tequilaType';
 import { Request } from 'express';
 import * as controller from '../../controllers/searchFlight.controller';
@@ -8,10 +8,10 @@ import { BadRequestError } from '../../utils/customErrors';
 jest.mock('../../service/searchFlight.service.ts');
 
 const requiredData: ISearchFlightRequest = {
-  fly_from: "ARN",
+  fly_from: 'ARN',
   date_from: `${format(startOfToday(), 'MM-dd-yyyy')}`,
-  date_to: `${format(add(startOfToday(), { weeks: 1 }), 'MM-dd-yyyy')}`
-}
+  date_to: `${format(add(startOfToday(), { weeks: 1 }), 'MM-dd-yyyy')}`,
+};
 
 const data = {
   fly_from: 'ARN',
@@ -69,8 +69,8 @@ const data = {
   vehicle_type: 'aircraft',
   enable_vi: false,
   sort: 'duration',
-  limit: 300
-}
+  limit: 300,
+};
 
 describe('searchFlight controller test', () => {
   beforeEach(() => {
@@ -160,7 +160,7 @@ describe('searchFlight controller test', () => {
       const failedRequest = {
         ...requiredData,
         return_from: `${format(add(startOfToday(), { weeks: 1, days: 3 }), 'MM-dd-yyyy')}`,
-        return_to: `${format(add(startOfToday(), { weeks: 1, days: 1 }), 'MM-dd-yyyy')}`
+        return_to: `${format(add(startOfToday(), { weeks: 1, days: 1 }), 'MM-dd-yyyy')}`,
       };
       const req: Request = {
         body: failedRequest,

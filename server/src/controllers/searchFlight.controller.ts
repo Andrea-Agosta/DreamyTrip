@@ -1,7 +1,7 @@
 import { isBefore, isAfter, parse, isValid, startOfYesterday, format } from 'date-fns';
-import { ISearchFlightsResponse } from "../config/type/tequilaType";
+import { ISearchFlightsResponse } from '../config/type/tequilaType';
 import { Request } from 'express';
-import { BadRequestError } from "../utils/customErrors";
+import { BadRequestError } from '../utils/customErrors';
 import { countryCodes } from '../utils/data/countryCode_ISO 3166';
 import { currenciesList } from '../utils/data/currenciesList';
 import { getFlights as getFlightsService } from '../service/searchFlight.service';
@@ -20,7 +20,7 @@ const isDateValid = (dateStr: string): boolean => {
     return isValid(parsedDate) && true;
   }
   return false;
-}
+};
 
 const isValidCabin = (cabin?: string, mix?: string): boolean => {
   const validCabinValues = new Set(['M', 'W', 'C', 'F']);
@@ -28,27 +28,27 @@ const isValidCabin = (cabin?: string, mix?: string): boolean => {
     return cabin !== undefined && validCabinValues.has(cabin) && validCabinValues.has(mix);
   }
   return !cabin || validCabinValues.has(cabin);
-}
+};
 
 const isPassengersAndLuggage = (
   adults = 1,
   children = 0,
   infants = 0,
-  adultHoldBaggage = "",
-  adultHandBaggage = "",
-  childHoldBaggage = "",
-  childHandBaggage = ""
+  adultHoldBaggage = '',
+  adultHandBaggage = '',
+  childHoldBaggage = '',
+  childHandBaggage = '',
 ) => {
   const validateBaggage = (passengers: number, baggageStr: string, maxBaggageCount: number, maxSingleBaggage: number) => {
     if (!baggageStr) return true;
-    const baggageArr = baggageStr.split(",").map(Number);
+    const baggageArr = baggageStr.split(',').map(Number);
     if (baggageArr.some(isNaN)) return false;
     return (
       baggageArr.length <= passengers &&
       baggageArr.every((baggage) => baggage >= 0 && baggage <= maxSingleBaggage) &&
       baggageArr.reduce((sum, baggage) => sum + baggage, 0) <= maxBaggageCount * passengers
     );
-  }
+  };
 
   const totalPassengers = adults + children + infants;
 
@@ -62,7 +62,7 @@ const isPassengersAndLuggage = (
     (!children || validateBaggage(children, childHoldBaggage, 2, 2)) &&
     (!children || validateBaggage(children, childHandBaggage, 1, 1))
   );
-}
+};
 
 const isValidFlyDays = (days: string | undefined, daysType: string | undefined): boolean => {
   if (!days && !daysType) {

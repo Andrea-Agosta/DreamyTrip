@@ -17,7 +17,7 @@ export const getUserById = async (id: string | undefined): Promise<IUser | null>
     return await getUserByIdService(id);
   }
   throw new BadRequestError(pathFile, 'getUserById');
-}
+};
 
 export const updateUser = async (req: Request<{ id: string }, {}, IUser>): Promise<IUser> => {
   if (req.params.id) {
