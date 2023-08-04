@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { ISearchFlightRequest, ISearchFlightsResponse } from "../config/type/tequilaType";
+import { ISearchFlightRequest, ISearchFlightsResponse } from '../config/type/tequilaType';
 import { Request } from 'express';
 import { tequilaClient } from '../utils/apiConnection';
 
@@ -9,7 +9,7 @@ export const getFlights = async (req: Request): Promise<ISearchFlightsResponse[]
     const data: ISearchFlightRequest = {
       fly_from: req.body.fly_from,
       date_from: format(new Date(req.body.date_from), 'dd/MM/yyyy'),
-      date_to: format(new Date(req.body.date_to), 'dd/MM/yyyy')
+      date_to: format(new Date(req.body.date_to), 'dd/MM/yyyy'),
     };
     req.body.fly_to && (data.fly_to = req.body.fly_to);
     req.body.return_from && (data.return_from = format(new Date(req.body.return_from), 'dd/MM/yyyy'));

@@ -1,5 +1,5 @@
-import { IUser } from "../config/type/userTypes";
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
+import { IUser } from '../config/type/userTypes';
 
 const userSchema: Schema = new Schema({
   name: String,
@@ -9,4 +9,4 @@ const userSchema: Schema = new Schema({
   password: String,
 });
 
-export const User = mongoose.model<IUser>("User", userSchema);
+export const User = mongoose.model<IUser>('User', userSchema);

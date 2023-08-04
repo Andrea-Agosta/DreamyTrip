@@ -28,4 +28,4 @@ export const login = async (email: string, password: string, done: (error: Error
     throw new BadRequestError(pathFile, 'login');
   }
   return done(null, user, { message: 'Logged in Successfully' });
-}
+};

@@ -14,12 +14,12 @@ router.post('/signup', passport.authenticate('signup', { session: false }), asyn
     name: req.body.name,
     surname: req.body.surname,
     country: req.body.country,
-    email: req.body.email
+    email: req.body.email,
   };
   const token = jwt.sign({ user: body }, secret, { expiresIn: '1h' });
   res.status(201).cookie('auth', token).json({
     message: 'Signup successful',
-    user: req.user
+    user: req.user,
   });
 });
 

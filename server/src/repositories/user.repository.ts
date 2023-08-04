@@ -1,7 +1,7 @@
-import { User } from "../models/userModel";
-import { IUser } from "../config/type/userTypes";
-import { dbClose, dbConnect } from "../utils/dbConnection";
-import { BadRequestError } from "../utils/customErrors";
+import { User } from '../models/userModel';
+import { IUser } from '../config/type/userTypes';
+import { dbClose, dbConnect } from '../utils/dbConnection';
+import { BadRequestError } from '../utils/customErrors';
 
 const path = 'src/repositories/user.repository.ts';
 
@@ -56,7 +56,7 @@ export const updateUser = async (id: string, data: Partial<IUser>): Promise<IUse
     }
     throw new Error(error.message);
   }
-}
+};
 
 export const deleteUser = async (id: string): Promise<void> => {
   try {

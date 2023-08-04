@@ -1,4 +1,4 @@
-import logger from "../../log/config";
+import logger from '../../log/config';
 
 export class BadRequestError extends Error {
   statusCode: number;
@@ -10,7 +10,7 @@ export class BadRequestError extends Error {
     this.message = 'Bad request';
     this.pathFile = pathFile;
     this.method = method;
-    logger?.warn(this.message, { filePath: this.pathFile, method: this.method })
+    logger?.warn(this.message, { filePath: this.pathFile, method: this.method });
   }
 }
 

@@ -1,6 +1,6 @@
-import { tequilaClient } from "../utils/apiConnection";
-import { ILocationQueryOptions } from "../config/type/tequilaType";
-import { updateLocation } from "../repositories/location.repository";
+import { tequilaClient } from '../utils/apiConnection';
+import { ILocationQueryOptions } from '../config/type/tequilaType';
+import { updateLocation } from '../repositories/location.repository';
 
 
 export const saveLocations = async (queryParams: ILocationQueryOptions, path: string) => {
@@ -8,4 +8,4 @@ export const saveLocations = async (queryParams: ILocationQueryOptions, path: st
   for (const location of places.locations) {
     await updateLocation(location);
   }
-}
+};

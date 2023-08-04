@@ -1,4 +1,4 @@
-import mongoose, { ConnectOptions } from "mongoose";
+import mongoose, { ConnectOptions } from 'mongoose';
 
 export const dbConnect = async () => {
   try {
@@ -9,11 +9,9 @@ export const dbConnect = async () => {
       } as ConnectOptions);
     } else {
       console.error('Failed to connect to MongoDB:');
-      process.exit(1);
     }
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error.message);
-    process.exit(1);
   }
 };
 

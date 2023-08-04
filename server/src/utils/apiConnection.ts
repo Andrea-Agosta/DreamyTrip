@@ -7,7 +7,7 @@ export const tequilaClient = async (queryParams: ILocationQueryOptions | ISearch
       method: 'GET',
       url: 'https://tequila-api.kiwi.com' + path,
       params: queryParams,
-      headers: { 'apikey': process.env.API_KEY_TEQUILA }
+      headers: { 'apikey': process.env.API_KEY_TEQUILA },
     };
 
     const response = await axios.request(options);
