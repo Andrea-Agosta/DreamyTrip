@@ -1,55 +1,28 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "prettier",
-    "prettier/@typescript-eslint"
-  ],
-  "plugins": [
-    "react",
-    "@typescript-eslint"
-  ],
+  "extends": ["airbnb", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   "rules": {
-    "quotes": [
+    "import/extensions": [
       "error",
-      "single"
-    ],
-    "indent": [
-      "error",
-      2
-    ],
-    "no-eval": "error",
-    "eqeqeq": "error",
-    "space-before-function-paren": [
-      "error",
-      "always"
-    ],
-    "no-multi-spaces": "error",
-    "no-unused-expressions": "error",
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
+      "ignorePackages",
       {
-        "allowExpressions": true
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
     ],
-    "@typescript-eslint/member-delimiter-style": [
-      "error",
-      {
-        "multiline": {
-          "delimiter": "semi",
-          "requireLast": true
-        },
-        "singleline": {
-          "delimiter": "semi",
-          "requireLast": false
-        }
-      }
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".tsx"] }
     ]
   }
 }
