@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from '../views/Home/Home';
-import Header from '../components/Header/Header';
+import Navbar from '../components/Navbar/Navbar';
 
 function App() {
   return (
     <Router>
-      <Header />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>

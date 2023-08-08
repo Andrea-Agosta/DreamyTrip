@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../assets/images/logo2.svg';
 
-function Header() {
+function Navbar() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   return (
@@ -46,4 +46,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Navbar;
