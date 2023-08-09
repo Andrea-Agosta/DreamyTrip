@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { tryCatch } from '../utils/tryCatch';
-import { ISearchFlightsResponse } from '../config/type/tequilaType';
+import { ISearchFlightsResponse } from '../types/tequilaType';
 import { getFlights } from '../controllers/searchFlight.controller';
 
 const router = express.Router();

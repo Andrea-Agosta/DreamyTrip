@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { IUser } from '../config/type/userTypes';
+import { IUser } from '../types/userTypes';
 import { getUsers as getUsersService } from '../service/user.service';
 import { getUserById as getUserByIdService } from '../service/user.service';
 import { updateUser as updateUserService } from '../service/user.service';

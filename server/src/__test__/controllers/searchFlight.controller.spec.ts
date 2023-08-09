@@ -1,5 +1,5 @@
 import { add, format, startOfToday, startOfYesterday } from 'date-fns';
-import { ISearchFlightRequest } from '../../config/type/tequilaType';
+import { ISearchFlightRequest } from '../../types/tequilaType';
 import { Request } from 'express';
 import * as controller from '../../controllers/searchFlight.controller';
 import * as searchFlightService from '../../service/searchFlight.service';

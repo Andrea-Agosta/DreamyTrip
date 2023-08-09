@@ -9,7 +9,7 @@ interface ISelect {
 export default function Select({ handleSelectChange, componentName, selected }: ISelect) {
   return (
     <select
-      className="w-full p-2 my-1 border border-blue-light rounded-lg focus:ring-blue-primary focus:ring-2 focus:outline-none text-blue-secondary"
+      className="w-full p-2 my-1 border border-blue-light rounded-lg focus:ring-blue-primary focus:ring-2 focus:outline-none text-blue-secondary text-lg"
       onChange={handleSelectChange}
       id={componentName}
       defaultValue={selected}

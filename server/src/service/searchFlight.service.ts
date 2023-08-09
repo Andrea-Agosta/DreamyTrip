@@ -1,5 +1,5 @@
 import format from 'date-fns/format';
-import { ISearchFlightRequest, ISearchFlightsResponse } from '../config/type/tequilaType';
+import { ISearchFlightRequest, ISearchFlightsResponse } from '../types/tequilaType';
 import { Request } from 'express';
 import { tequilaClient } from '../utils/apiConnection';
 

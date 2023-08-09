@@ -15,7 +15,7 @@ function Modal() {
     <>
       <button
         type="button"
-        className="btn h-9 min-h-0 py-1 px-10 -mt-2 me-5 font-marcellus text-blue-secondary text-base bg-transparent border border-blue-secondary rounded-lg hover:bg-blue-secondary hover:text-white hover:border-blue-light"
+        className="btn h-9 min-h-0 py-1 px-10 me-5 font-marcellus text-blue-secondary text-base bg-transparent border border-blue-secondary rounded-lg hover:bg-blue-secondary hover:text-white hover:border-blue-light"
         onClick={handleModal}
       >
         open modal
@@ -25,11 +25,11 @@ function Modal() {
           <h3 className="font-bold text-lg font-lato">Regional Setting</h3>
           <ul>
             <li>
-              <label htmlFor="country" className="mt-10 pb-1 flex flex-row gap-3">
+              <label htmlFor="country" className="mt-10 pb-1 flex flex-row gap-3 md:text-xl">
                 <TfiWorld className="mt-1" />
                 Country / Region
               </label>
-              <p className="text-sm">
+              <p className="text-xs font-medium mb-2">
                 Selecting the country you’re in will give you local deals and information.
               </p>
               <Select
@@ -39,7 +39,7 @@ function Modal() {
               />
             </li>
             <li>
-              <label htmlFor="country" className="mt-10 pb-1 flex flex-row gap-3">
+              <label htmlFor="country" className="mt-10 pb-1 flex flex-row gap-3 md:text-xl">
                 <BsCurrencyExchange className="mt-1" />
                 Currency
               </label>

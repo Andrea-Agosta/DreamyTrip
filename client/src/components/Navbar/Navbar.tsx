@@ -17,7 +17,7 @@ function Navbar() {
             <span className="text-blue-secondary">Flight</span>
           </h2>
         </div>
-        <div className="hidden md:inline">
+        <div className="hidden md:inline -mt-1">
           {/* {createPortal(<Modal />, document.body)} */}
           <Modal />
         </div>

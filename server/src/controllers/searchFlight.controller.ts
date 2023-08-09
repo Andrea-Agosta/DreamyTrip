@@ -1,5 +1,5 @@
 import { isBefore, isAfter, parse, isValid, startOfYesterday, format } from 'date-fns';
-import { ISearchFlightsResponse } from '../config/type/tequilaType';
+import { ISearchFlightsResponse } from '../types/tequilaType';
 import { Request } from 'express';
 import { BadRequestError } from '../utils/customErrors';
 import { countryCodes } from '../utils/data/countryCode_ISO 3166';

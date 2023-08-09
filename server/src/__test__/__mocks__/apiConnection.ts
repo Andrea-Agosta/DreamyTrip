@@ -1,4 +1,4 @@
-import { ILocationQueryOptions, ISearchFlightRequest } from '../../config/type/tequilaType';
+import { ILocationQueryOptions, ISearchFlightRequest } from '../../types/tequilaType';
 import { location } from '../utils/test-location-data';
 
 

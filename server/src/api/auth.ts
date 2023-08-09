@@ -1,7 +1,7 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import express, { NextFunction, Request, Response } from 'express';
-import { IUser } from '../config/type/userTypes';
+import { IUser } from '../types/userTypes';
 import { tryCatch } from '../utils/tryCatch';
 import '../controllers/auth.controller';
 
