@@ -1,3 +1,4 @@
+/* eslint-disable */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -13,8 +14,24 @@ module.exports = {
       },
       fontFamily: {
         marcellus: ['"Marcellus SC"', 'serif'],
+        lato: ['Lato', 'sans-serif'],
+        karla: ['Karla', 'sans-serif'],
+      },
+      extend: {
+        typography: {
+          DEFAULT: {
+            css: {
+              p: {
+                fontFamily: 'karla',
+              },
+            },
+          },
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light"],
+  },
 };

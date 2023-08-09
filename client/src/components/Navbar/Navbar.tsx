@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+// import { createPortal } from 'react-dom';
 import logo from '../../assets/images/logo2.svg';
+import Modal from '../Modal/Modal';
 
 function Navbar() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -14,6 +16,10 @@ function Navbar() {
             {' '}
             <span className="text-blue-secondary">Flight</span>
           </h2>
+        </div>
+        <div className="hidden md:inline">
+          {/* {createPortal(<Modal />, document.body)} */}
+          <Modal />
         </div>
         <button
           type="button"
@@ -39,7 +45,9 @@ function Navbar() {
       {/* navbar mobile menu */}
       <nav className={`border ${isClicked ? 'block' : 'hidden'}`}>
         <div className="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
-          <div className="flex flex-col md:flex-row md:items-center">{/* dropdown here */}</div>
+          <div className="flex flex-col md:flex-row md:items-center">
+            <Modal />
+          </div>
         </div>
       </nav>
     </>

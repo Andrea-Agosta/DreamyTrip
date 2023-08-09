@@ -1,16 +1,16 @@
 import React, { ChangeEvent } from 'react';
 
 interface ISelect {
-  handleCategoryChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  handleSelectChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   componentName: string;
   selected: string;
 }
 
-export default function Select({ handleCategoryChange, componentName, selected }: ISelect) {
+export default function Select({ handleSelectChange, componentName, selected }: ISelect) {
   return (
     <select
-      className="p-2 my-1 border border-blue-light rounded-lg focus:ring-blue-primary focus:ring-2 focus:outline-none text-blue-secondary"
-      onChange={handleCategoryChange}
+      className="w-full p-2 my-1 border border-blue-light rounded-lg focus:ring-blue-primary focus:ring-2 focus:outline-none text-blue-secondary"
+      onChange={handleSelectChange}
       id={componentName}
       defaultValue={selected}
     >
