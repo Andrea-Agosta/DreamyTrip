@@ -19,7 +19,7 @@ function Navbar() {
         </div>
         <div className="hidden md:inline -mt-1">
           {/* {createPortal(<Modal />, document.body)} */}
-          <Modal />
+          <Modal type="countryCurrency" />
         </div>
         <button
           type="button"
@@ -46,7 +46,7 @@ function Navbar() {
       <nav className={`border ${isClicked ? 'block' : 'hidden'}`}>
         <div className="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
           <div className="flex flex-col md:flex-row md:items-center">
-            <Modal />
+            <Modal type="countryCurrency" />
           </div>
         </div>
       </nav>
