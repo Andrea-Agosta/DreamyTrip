@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { tryCatch } from '../utils/tryCatch';
 import { ICountry } from '../types/country.type';
+import { getUserCountry } from '../controllers/geolocation.controller';
 
 const router = express.Router();
 
