@@ -1,4 +1,4 @@
-import { ILocationResponse } from '../../types/tequilaType';
+import { ILocationResponse } from '../../types/tequila.type';
 
 
 export const location: ILocationResponse = {

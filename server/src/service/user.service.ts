@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { IUser } from '../types/userTypes';
+import { IUser } from '../types/user.type';
 import { getUsers as getUsersRepository } from '../repositories/user.repository';
 import { getUserById as getUserByIdRepository } from '../repositories/user.repository';
 import { getUserByEmail as getUserByEmailRepository } from '../repositories/user.repository';

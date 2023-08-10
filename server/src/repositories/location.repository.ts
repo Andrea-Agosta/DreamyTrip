@@ -1,4 +1,4 @@
-import { ILocationResponse } from '../types/tequilaType';
+import { ILocationResponse } from '../types/tequila.type';
 import { dbClose, dbConnect } from '../utils/dbConnection';
 import { Location } from '../models/locationModel';
 

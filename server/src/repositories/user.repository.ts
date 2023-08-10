@@ -1,5 +1,5 @@
 import { User } from '../models/userModel';
-import { IUser } from '../types/userTypes';
+import { IUser } from '../types/user.type';
 import { dbClose, dbConnect } from '../utils/dbConnection';
 import { BadRequestError } from '../utils/customErrors';
 

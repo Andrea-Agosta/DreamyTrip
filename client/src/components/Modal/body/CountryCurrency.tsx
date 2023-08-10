@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { ChangeEvent } from 'react';
 import { BsCurrencyExchange } from 'react-icons/bs';
 import { TfiWorld } from 'react-icons/tfi';

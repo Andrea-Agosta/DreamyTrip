@@ -1,6 +1,6 @@
 import { deleteUser, getUsers, getUserById, updateUser } from '../controllers/user.controller';
 import express, { Request, Response } from 'express';
-import { IUser } from '../types/userTypes';
+import { IUser } from '../types/user.type';
 import { tryCatch } from '../utils/tryCatch';
 
 const router = express.Router();

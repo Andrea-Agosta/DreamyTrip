@@ -1,4 +1,4 @@
-import { ILocationQueryOptions, ISearchFlightRequest } from '../types/tequilaType';
+import { ILocationQueryOptions, ISearchFlightRequest } from '../types/tequila.type';
 import axios from 'axios';
 
 export const tequilaClient = async (queryParams: ILocationQueryOptions | ISearchFlightRequest, path: string) => {
