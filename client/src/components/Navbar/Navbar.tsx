@@ -1,10 +1,27 @@
-import React, { useState } from 'react';
-// import { createPortal } from 'react-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import logo from '../../assets/images/logo2.svg';
 import Modal from '../Modal/Modal';
+import { CountryContext } from '../../context/country';
+import server from '../../api/server';
+import { CountryInfo } from '../../types/country.type';
+import flagData from '../../assets/flag.json';
+
+declare const countryToCurrency: CountryInfo;
 
 function Navbar() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const { setCountry } = useContext(CountryContext);
+  useEffect(() => {
+    server(null, '/geolocation').then((resp) => {
+      const currencyCode = countryToCurrency[resp.country_code];
+      const flag: string = (flagData as CountryInfo)[resp.country_code];
+      setCountry({
+        country_name: resp.country_name,
+        country_currency: currencyCode,
+        country_flag: flag,
+      });
+    });
+  }, []);
 
   return (
     <>

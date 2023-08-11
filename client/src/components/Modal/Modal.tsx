@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { ChangeEvent, useContext, useState } from 'react';
 import CountryCurrency from './body/CountryCurrency';
 import { CountryContext } from '../../context/country';
+import { ICountry } from '../../types/country.type';
 
 function Modal({ type }: { type: string }) {
+  const { country, setCountry } = useContext(CountryContext);
   const [isModalOpen, setisModlaOpen] = useState<boolean>(false);
-  const { country } = useContext(CountryContext);
+  const [tempSelectValue, setTempSelectValue] = useState<ICountry>(country);
 
   const handleModal = () => setisModlaOpen(!isModalOpen);
-  const handleSelectChange = () => {};
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => console.log(event, 'event');
   const handleSaveChanges = () => {};
-
-  console.log(country);
-
+  console.log(setCountry, '');
   return (
     <>
       <button
@@ -25,7 +25,12 @@ function Modal({ type }: { type: string }) {
         <form method="dialog" className="modal-box p-5 max-w-sm">
           {
             {
-              countryCurrency: <CountryCurrency handleSelectChange={handleSelectChange} />,
+              countryCurrency: (
+                <CountryCurrency
+                  handleSelectChange={handleSelectChange}
+                  defaultValue={tempSelectValue}
+                />
+              ),
             }[type]
           }
           <div className="mt-10 w-full flex flex-col gap-2">

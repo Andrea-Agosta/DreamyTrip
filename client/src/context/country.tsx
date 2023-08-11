@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useState } from 'react';
-import { ICountry } from '../types/country';
+import { ICountry } from '../types/country.type';
 
 interface ICountryContext {
   country: ICountry;
@@ -15,7 +15,8 @@ export const CountryContext = createContext<ICountryContext>({} as ICountryConte
 export function CartItemsContestProvider({ children }: IData) {
   const [country, setCountry] = useState<ICountry>({
     country_name: '',
-    country_code: '',
+    country_currency: '',
+    country_flag: '',
   });
   const contextValue = useMemo(() => ({ country, setCountry }), [country, setCountry]);
   return <CountryContext.Provider value={contextValue}>{children}</CountryContext.Provider>;
