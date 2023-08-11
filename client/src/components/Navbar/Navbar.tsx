@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import logo from '../../assets/images/logo2.svg';
 import Modal from '../Modal/Modal';
-import { CountryContext } from '../../context/country';
+import { CountryContext } from '../../context/country.context';
 import server from '../../api/server';
 import { CountryInfo } from '../../types/country.type';
 import flagData from '../../assets/flag.json';

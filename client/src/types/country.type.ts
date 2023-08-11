@@ -7,3 +7,11 @@ export interface ICountry {
 export interface CountryInfo {
   [key: string]: string;
 }
+
+export interface ICountryCurrencyList {
+  name: string;
+  code: string;
+  emoji: string;
+  unicode: string;
+  image: string;
+}

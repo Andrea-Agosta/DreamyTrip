@@ -1,6 +1,8 @@
-import React, { ChangeEvent, useContext, useState } from 'react';
+import React, {
+  ChangeEvent, useContext, useEffect, useState,
+} from 'react';
 import CountryCurrency from './body/CountryCurrency';
-import { CountryContext } from '../../context/country';
+import { CountryContext } from '../../context/country.context';
 import { ICountry } from '../../types/country.type';
 
 function Modal({ type }: { type: string }) {
@@ -8,18 +10,36 @@ function Modal({ type }: { type: string }) {
   const [isModalOpen, setisModlaOpen] = useState<boolean>(false);
   const [tempSelectValue, setTempSelectValue] = useState<ICountry>(country);
 
-  const handleModal = () => setisModlaOpen(!isModalOpen);
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => console.log(event, 'event');
-  const handleSaveChanges = () => {};
-  console.log(setCountry, '');
+  const handleModal = () => {
+    setisModlaOpen(!isModalOpen);
+    setTempSelectValue(country);
+  };
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    if (event.target.name === 'country') {
+      setTempSelectValue({
+        ...tempSelectValue,
+        country_name: event.target.value,
+        country_flag: event.target.selectedOptions[0]?.getAttribute('data-emoji') ?? '',
+      });
+    }
+  };
+  const handleSaveChanges = () => {
+    setCountry(tempSelectValue);
+    setisModlaOpen(!isModalOpen);
+  };
+
+  useEffect(() => {
+    setTempSelectValue(country);
+  }, [country]);
+
   return (
     <>
       <button
         type="button"
-        className="btn btn-sm btn-wide me-5 font-marcellus text-blue-secondary text-base bg-transparent border border-blue-secondary rounded-lg hover:bg-blue-secondary hover:text-white hover:border-blue-light"
+        className="btn btn-sm me-5 font-marcellus text-blue-secondary text-base bg-transparent border border-blue-secondary rounded-lg hover:bg-blue-secondary hover:text-white hover:border-blue-light"
         onClick={handleModal}
       >
-        open modal
+        {`${country.country_flag} ${country.country_name} - ${country.country_currency}`}
       </button>
       <dialog className={`modal text-black ${isModalOpen ? 'modal-open' : ''} `}>
         <form method="dialog" className="modal-box p-5 max-w-sm">
