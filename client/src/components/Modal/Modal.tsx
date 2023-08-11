@@ -14,15 +14,18 @@ function Modal({ type }: { type: string }) {
     setisModlaOpen(!isModalOpen);
     setTempSelectValue(country);
   };
+
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (event.target.name === 'country') {
-      setTempSelectValue({
+      return setTempSelectValue({
         ...tempSelectValue,
         country_name: event.target.value,
         country_flag: event.target.selectedOptions[0]?.getAttribute('data-emoji') ?? '',
       });
     }
+    return setTempSelectValue({ ...tempSelectValue, country_currency: event.target.value });
   };
+
   const handleSaveChanges = () => {
     setCountry(tempSelectValue);
     setisModlaOpen(!isModalOpen);

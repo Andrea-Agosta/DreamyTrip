@@ -3,18 +3,26 @@ import logo from '../../assets/images/logo2.svg';
 import Modal from '../Modal/Modal';
 import { CountryContext } from '../../context/country.context';
 import server from '../../api/server';
-import { CountryInfo } from '../../types/country.type';
-import flagData from '../../assets/flag.json';
+import { CountryInfo, ICountryCurrencyList } from '../../types/country.type';
+import countriesList from '../../data/countiesList.json';
 
 declare const countryToCurrency: CountryInfo;
 
 function Navbar() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const { setCountry } = useContext(CountryContext);
+
+  const getCodeEmoji = (code: string) => {
+    const countryData = countriesList.find(
+      (country: ICountryCurrencyList) => country.code === code,
+    );
+    return countryData ? countryData.emoji : '';
+  };
+
   useEffect(() => {
     server(null, '/geolocation').then((resp) => {
       const currencyCode = countryToCurrency[resp.country_code];
-      const flag: string = (flagData as CountryInfo)[resp.country_code];
+      const flag: string = getCodeEmoji(resp.country_code);
       setCountry({
         country_name: resp.country_name,
         country_currency: currencyCode,

@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
-import countries from '../../assets/countiesList.json';
+import countries from '../../data/countiesList.json';
 import { ICountryCurrencyList } from '../../types/country.type';
+import currenciesList from '../../data/currenciesList';
 
 interface ISelect {
   handleSelectChange: (event: ChangeEvent<HTMLSelectElement>) => void;
@@ -17,13 +18,20 @@ export default function Select({ handleSelectChange, componentName, selected }: 
       value={selected}
       name={componentName}
     >
-      {countries.map((country: ICountryCurrencyList) => (
-        <option key={country.name} value={country.name} data-emoji={country.emoji}>
-          {country.emoji}
-          {' '}
-          {country.name}
-        </option>
-      ))}
+      {
+        {
+          country: countries.map((country: ICountryCurrencyList) => (
+            <option key={country.name} value={country.name} data-emoji={country.emoji}>
+              {`${country.emoji} ${country.name}`}
+            </option>
+          )),
+          currency: currenciesList.map((curr: string) => (
+            <option key={curr} value={curr}>
+              {curr}
+            </option>
+          )),
+        }[componentName]
+      }
     </select>
   );
 }
