@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import CountryCurrency from './body/CountryCurrency';
+import { CountryContext } from '../../context/country';
 
 function Modal({ type }: { type: string }) {
   const [isModalOpen, setisModlaOpen] = useState<boolean>(false);
+  const { country } = useContext(CountryContext);
 
   const handleModal = () => setisModlaOpen(!isModalOpen);
   const handleSelectChange = () => {};
   const handleSaveChanges = () => {};
 
+  console.log(country);
+
   return (
     <>
       <button
         type="button"
-        className="btn h-9 min-h-0 py-1 px-10 me-5 font-marcellus text-blue-secondary text-base bg-transparent border border-blue-secondary rounded-lg hover:bg-blue-secondary hover:text-white hover:border-blue-light"
+        className="btn btn-sm btn-wide me-5 font-marcellus text-blue-secondary text-base bg-transparent border border-blue-secondary rounded-lg hover:bg-blue-secondary hover:text-white hover:border-blue-light"
         onClick={handleModal}
       >
         open modal
@@ -28,11 +32,11 @@ function Modal({ type }: { type: string }) {
             <button
               type="submit"
               onClick={handleSaveChanges}
-              className="btn h-9 min-h-0 bg-blue-secondary text-white"
+              className="btn btn-sm bg-blue-secondary text-white hover:bg-blue-primary"
             >
               Save
             </button>
-            <button type="submit" onClick={handleModal} className="btn h-9 min-h-0">
+            <button type="submit" onClick={handleModal} className="btn btn-sm">
               Close
             </button>
           </div>
