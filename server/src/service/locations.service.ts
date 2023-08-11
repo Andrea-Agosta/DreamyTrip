@@ -1,5 +1,5 @@
 import { tequilaClient } from '../utils/apiConnection';
-import { ILocationQueryOptions } from '../config/type/tequilaType';
+import { ILocationQueryOptions } from '../types/tequila.type';
 import { updateLocation } from '../repositories/location.repository';
 
 

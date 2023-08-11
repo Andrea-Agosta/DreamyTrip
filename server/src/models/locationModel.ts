@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { ILocationResponse } from '../config/type/tequilaType';
+import { ILocationResponse } from '../types/tequila.type';
 
 const locationSchema = new Schema({
   'id': String,

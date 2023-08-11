@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { getUserByEmail, createUser } from './user.service';
-import { IUser } from '../config/type/userTypes';
+import { IUser } from '../types/user.type';
 import { Request } from 'express';
 import { BadRequestError } from '../utils/customErrors';
 
