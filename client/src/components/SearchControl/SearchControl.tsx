@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import format from 'date-fns/format';
 import Select from '../Select/Select';
+import Datepicker from './body/Datepicker';
 
 function SearchControl() {
   const today = format(new Date(), 'yyyy-MM-dd');
@@ -16,13 +17,13 @@ function SearchControl() {
   };
 
   return (
-    <section className="p-5 flex bg-blue-dark gap-4 text-white font-lato font-bold text-xl text-left">
+    <section className="p-5 flex bg-blue-dark gap-4 text-blue-lighter font-lato font-bold text-xl text-left">
       <form className="w-full">
         <ul>
           {selectComponents.map((select, index) => (
             <li
               key={select}
-              className={`flex flex-col gap-2 ${index === selectComponents.length} && mb-2`}
+              className={`flex flex-col ${index === selectComponents.length} && mb-2`}
             >
               <label htmlFor={select}>
                 {select.split('_')[1].toUpperCase()}
@@ -32,20 +33,8 @@ function SearchControl() {
             </li>
           ))}
           {dateComponents.map((singleDate) => (
-            <li key={singleDate} className="mb-2 flex flex-col gap-3">
-              <label htmlFor={singleDate}>
-                {singleDate.toUpperCase()}
-                :
-              </label>
-              <input
-                className="p-2 font-normal text-blue-secondary border-radius rounded-md"
-                type="date"
-                id={singleDate}
-                name={singleDate}
-                min={today}
-                value={singleDate === 'Departure' ? date.dateFrom : date.dateTo}
-                onChange={(event) => handleDataChange(event)}
-              />
+            <li key={singleDate} className="mb-2 flex flex-col gap-1">
+              <Datepicker singleDate={singleDate} handleDataChange={handleDataChange} date={date} />
             </li>
           ))}
         </ul>
