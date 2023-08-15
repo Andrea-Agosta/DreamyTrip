@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-const server = async (queryParams: null, path: string) => {
+const server = async (queryParams: null | { select: string }, path: string) => {
   try {
     const options = {
       method: 'GET',
       url: process.env.REACT_APP_SERVER + path,
       params: queryParams,
-      headers: { apikey: process.env.API_KEY_TEQUILA },
     };
 
     const response = await axios.request(options);

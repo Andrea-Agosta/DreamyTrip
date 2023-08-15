@@ -1,20 +1,33 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import format from 'date-fns/format';
+import { isAfter, parse } from 'date-fns';
 import Select from '../Select/Select';
 import Datepicker from './body/Datepicker';
+import server from '../../api/server';
 
 function SearchControl() {
   const today = format(new Date(), 'yyyy-MM-dd');
   const [date, setDate] = useState({ dateFrom: today, dateTo: today });
   const selectComponents = ['flight_from', 'flight_to'];
   const dateComponents = ['Departure', 'Return'];
+
   const handleSelectChange = () => {};
+
   const handleDataChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === 'Departure') {
+      const departureDate = parse(event.target.value, 'yyyy-MM-dd', new Date());
+      const returnDate = parse(date.dateTo, 'yyyy-MM-dd', new Date());
+      if (isAfter(departureDate, returnDate)) {
+        return setDate({ dateFrom: event.target.value, dateTo: event.target.value });
+      }
       return setDate({ ...date, dateFrom: event.target.value });
     }
     return setDate({ ...date, dateTo: event.target.value });
   };
+
+  useEffect(() => {
+    server({ select: 'code name' }, '/api/location').then((response) => console.log(response));
+  }, []);
 
   return (
     <section className="p-5 flex bg-blue-dark gap-4 text-blue-lighter font-lato font-bold text-xl text-left">

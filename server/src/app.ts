@@ -8,6 +8,7 @@ import auth from './api/auth';
 import searchFlight from './api/searchFlight';
 import { errorHandler } from './middleware/errorHandler';
 import { placesListUpdate } from './jobs/placeList';
+import location  from './api/location';
 import geolocation from './middleware/geolocation';
 
 
@@ -22,6 +23,7 @@ placesListUpdate();
 app.use('/api/user', user);
 app.use('/api/auth', auth);
 app.use('/api/flight/search', searchFlight);
+app.use('/api/location', location);
 app.use(geolocation);
 
 app.get('/', (_req: Request, res: Response) => {
