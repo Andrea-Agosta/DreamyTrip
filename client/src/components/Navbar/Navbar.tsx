@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import logo from '../../assets/images/logo2.svg';
 import Modal from '../Modal/Modal';
-import { CountryContext } from '../../context/country.context';
+import { CountriesContext } from '../../context/countries.context';
 import server from '../../api/server';
 import { CountryInfo, ICountryCurrencyList } from '../../types/country.type';
 import countriesList from '../../data/countiesList.json';
@@ -10,7 +10,7 @@ declare const countryToCurrency: CountryInfo;
 
 function Navbar() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const { setCountry } = useContext(CountryContext);
+  const { setCountry } = useContext(CountriesContext);
 
   const getCodeEmoji = (code: string) => {
     const countryData = countriesList.find(
