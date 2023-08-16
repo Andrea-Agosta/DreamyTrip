@@ -1,53 +1,67 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent, useContext, useEffect, useState,
+} from 'react';
 import format from 'date-fns/format';
 import { isAfter, parse } from 'date-fns';
-import Select from '../Select/Select';
-import Datepicker from './body/Datepicker';
 import server from '../../api/server';
+import InputGroup from './body/InputGroup';
+import { AirportsContext } from '../../context/airports.context';
+import { IAirports } from '../../types/airport.type';
 
 function SearchControl() {
   const today = format(new Date(), 'yyyy-MM-dd');
   const [date, setDate] = useState({ dateFrom: today, dateTo: today });
-  const selectComponents = ['flight_from', 'flight_to'];
-  const dateComponents = ['Departure', 'Return'];
+  const [autoComplete, setAutoComplete] = useState<IAirports[]>([] as IAirports[]);
+  const { airport, setAirport } = useContext(AirportsContext);
+  const componentsName = ['From', 'To', 'Departure', 'Return'];
 
-  const handleSelectChange = () => {};
+  const autoCompleteFilter = (value: string): IAirports[] => airport
+    .filter((item) => (value.length > 3
+      ? item.name.toLowerCase().includes(value.toLowerCase())
+      : item.code.toLowerCase().includes(value.toLowerCase())))
+    .slice(0, 5);
 
-  const handleDataChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === 'Departure') {
-      const departureDate = parse(event.target.value, 'yyyy-MM-dd', new Date());
-      const returnDate = parse(date.dateTo, 'yyyy-MM-dd', new Date());
-      if (isAfter(departureDate, returnDate)) {
-        return setDate({ dateFrom: event.target.value, dateTo: event.target.value });
-      }
-      return setDate({ ...date, dateFrom: event.target.value });
+  const handleDataChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const departureDate = parse(event.target.value, 'yyyy-MM-dd', new Date());
+    const returnDate = parse(date.dateTo, 'yyyy-MM-dd', new Date());
+    switch (event.target.name) {
+      case 'From':
+        setAutoComplete(autoCompleteFilter(event.target.value));
+        break;
+      case 'To':
+        setAutoComplete(autoCompleteFilter(event.target.value));
+        break;
+      case 'Departure':
+        if (isAfter(departureDate, returnDate)) {
+          setDate({ dateFrom: event.target.value, dateTo: event.target.value });
+        } else {
+          setDate({ ...date, dateFrom: event.target.value });
+        }
+        break;
+      case 'Return':
+        setDate({ ...date, dateTo: event.target.value });
+        break;
+      default:
+        break;
     }
-    return setDate({ ...date, dateTo: event.target.value });
   };
 
   useEffect(() => {
-    server({ select: 'code name' }, '/api/location').then((response) => console.log(response));
+    server({ select: 'code name' }, '/api/location').then((response) => setAirport(response));
   }, []);
 
   return (
     <section className="p-5 flex bg-blue-dark gap-4 text-blue-lighter font-lato font-bold text-xl text-left">
       <form className="w-full">
         <ul>
-          {selectComponents.map((select, index) => (
-            <li
-              key={select}
-              className={`flex flex-col ${index === selectComponents.length} && mb-2`}
-            >
-              <label htmlFor={select}>
-                {select.split('_')[1].toUpperCase()}
-                :
-              </label>
-              <Select handleSelectChange={handleSelectChange} componentName={select} selected="" />
-            </li>
-          ))}
-          {dateComponents.map((singleDate) => (
-            <li key={singleDate} className="mb-2 flex flex-col gap-1">
-              <Datepicker singleDate={singleDate} handleDataChange={handleDataChange} date={date} />
+          {componentsName.map((component) => (
+            <li key={component} className="mb-2 flex flex-col gap-1">
+              <InputGroup
+                component={component}
+                handleChange={handleDataChange}
+                date={date}
+                autoComplete={autoComplete}
+              />
             </li>
           ))}
         </ul>

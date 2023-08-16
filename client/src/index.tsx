@@ -4,11 +4,14 @@ import './styles/global.css';
 import App from './routes';
 import reportWebVitals from './reportWebVitals';
 import { CountirsContestProvider } from './context/countries.context';
+import { AirportsContestProvider } from './context/airports.context';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <CountirsContestProvider>
-      <App />
+      <AirportsContestProvider>
+        <App />
+      </AirportsContestProvider>
     </CountirsContestProvider>
   </React.StrictMode>,
 );
