@@ -11,25 +11,30 @@ import { IAirports } from '../../types/airport.type';
 function SearchControl() {
   const today = format(new Date(), 'yyyy-MM-dd');
   const [date, setDate] = useState({ dateFrom: today, dateTo: today });
-  const [autoComplete, setAutoComplete] = useState<IAirports[]>([] as IAirports[]);
+  const [autoComplete, setAutoComplete] = useState({
+    from: [] as IAirports[],
+    to: [] as IAirports[],
+  });
   const { airport, setAirport } = useContext(AirportsContext);
   const componentsName = ['From', 'To', 'Departure', 'Return'];
 
-  const autoCompleteFilter = (value: string): IAirports[] => airport
-    .filter((item) => (value.length > 3
+  const autoCompleteFilter = (value: string): IAirports[] => {
+    if (value.length === 0) return [];
+    const filteredList = airport.filter((item) => (value.length > 3
       ? item.name.toLowerCase().includes(value.toLowerCase())
-      : item.code.toLowerCase().includes(value.toLowerCase())))
-    .slice(0, 5);
+      : item.code.toLowerCase().includes(value.toLowerCase())));
+    return filteredList.slice(0, 5);
+  };
 
   const handleDataChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const departureDate = parse(event.target.value, 'yyyy-MM-dd', new Date());
     const returnDate = parse(date.dateTo, 'yyyy-MM-dd', new Date());
     switch (event.target.name) {
       case 'From':
-        setAutoComplete(autoCompleteFilter(event.target.value));
+        setAutoComplete({ ...autoComplete, from: autoCompleteFilter(event.target.value) });
         break;
       case 'To':
-        setAutoComplete(autoCompleteFilter(event.target.value));
+        setAutoComplete({ ...autoComplete, to: autoCompleteFilter(event.target.value) });
         break;
       case 'Departure':
         if (isAfter(departureDate, returnDate)) {
