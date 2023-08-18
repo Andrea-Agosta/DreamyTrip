@@ -51,6 +51,7 @@ function InputGroup({
             onChange={handleChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            autoComplete="off"
           />
           {isFocused && suggestionLocation.length > 0 && (
             <Suggestions
