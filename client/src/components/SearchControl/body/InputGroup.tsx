@@ -6,16 +6,23 @@ import Suggestions from './Suggestions';
 interface InputGroup {
   component: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  date: { dateFrom: string; dateTo: string };
-  autoComplete: { from: IAirports[]; to: IAirports[] };
+  inputValue: { flyFrom: string; flyTo: string; dateFrom: string; dateTo: string };
+  suggestions: { from: IAirports[]; to: IAirports[] };
+  handleSuggestions: (suggestion: IAirports, component: string) => void;
 }
 
 function InputGroup({
-  component, handleChange, date, autoComplete,
+  component,
+  handleChange,
+  inputValue,
+  suggestions,
+  handleSuggestions,
 }: InputGroup) {
   const [isFocused, setIsFocused] = useState(false);
   const today = format(new Date(), 'yyyy-MM-dd');
-  const suggestions = component === 'From' ? autoComplete.from : autoComplete.to;
+  const suggestionLocation = component === 'From' ? suggestions.from : suggestions.to;
+
+  const closeSuggestion = () => setIsFocused(false);
 
   return (
     <>
@@ -30,7 +37,7 @@ function InputGroup({
           id={component}
           name={component}
           min={today}
-          value={component === 'Departure' ? date.dateFrom : date.dateTo}
+          value={component === 'Departure' ? inputValue.dateFrom : inputValue.dateTo}
           onChange={handleChange}
         />
       ) : (
@@ -40,12 +47,18 @@ function InputGroup({
             type="text"
             id={component}
             name={component}
+            value={inputValue[component === 'From' ? 'flyFrom' : 'flyTo']}
             onChange={handleChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           />
-          {isFocused && suggestions.length > 0 && (
-            <Suggestions suggestions={suggestions} component={component} />
+          {isFocused && suggestionLocation.length > 0 && (
+            <Suggestions
+              suggestions={suggestionLocation}
+              component={component}
+              handleSuggestions={handleSuggestions}
+              closeSuggestion={closeSuggestion}
+            />
           )}
         </div>
       )}

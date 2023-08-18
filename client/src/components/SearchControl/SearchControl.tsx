@@ -10,41 +10,82 @@ import { IAirports } from '../../types/airport.type';
 
 function SearchControl() {
   const today = format(new Date(), 'yyyy-MM-dd');
-  const [date, setDate] = useState({ dateFrom: today, dateTo: today });
-  const [autoComplete, setAutoComplete] = useState({
+  const [inputValue, setInputValue] = useState({
+    flyFrom: '',
+    flyTo: '',
+    dateFrom: today,
+    dateTo: today,
+  });
+  const [suggestions, setSuggestions] = useState({
     from: [] as IAirports[],
     to: [] as IAirports[],
   });
   const { airport, setAirport } = useContext(AirportsContext);
   const componentsName = ['From', 'To', 'Departure', 'Return'];
 
-  const autoCompleteFilter = (value: string): IAirports[] => {
+  const suggestionsFilter = (value: string): IAirports[] => {
+    const normalizedValue = value.toLowerCase();
     if (value.length === 0) return [];
-    const filteredList = airport.filter((item) => (value.length > 3
-      ? item.name.toLowerCase().includes(value.toLowerCase())
-      : item.code.toLowerCase().includes(value.toLowerCase())));
-    return filteredList.slice(0, 5);
+
+    const filteredList = airport.filter(
+      (item) => item.name.toLowerCase().includes(normalizedValue)
+        || item.code.toLowerCase().includes(normalizedValue),
+    );
+
+    const searchForCode = filteredList.find((item) => item.code.toLowerCase() === normalizedValue);
+    if (searchForCode) {
+      const otherSuggestions = filteredList.filter((item) => item !== searchForCode);
+      return [searchForCode, ...otherSuggestions.slice(0, 9)];
+    }
+
+    return filteredList.slice(0, 10);
+  };
+
+  const handleSuggestions = (suggestion: IAirports, component: string): void => {
+    const newValue = `${suggestion.name} (${suggestion.code})`;
+    setInputValue((prevInputValue) => ({
+      ...prevInputValue,
+      [component === 'From' ? 'flyFrom' : 'flyTo']: newValue,
+    }));
   };
 
   const handleDataChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const departureDate = parse(event.target.value, 'yyyy-MM-dd', new Date());
-    const returnDate = parse(date.dateTo, 'yyyy-MM-dd', new Date());
+    const returnDate = parse(inputValue.dateTo, 'yyyy-MM-dd', new Date());
     switch (event.target.name) {
       case 'From':
-        setAutoComplete({ ...autoComplete, from: autoCompleteFilter(event.target.value) });
+        setInputValue((prevInputValue) => ({
+          ...prevInputValue,
+          flyFrom: event.target.value,
+        }));
+        setSuggestions({
+          ...suggestions,
+          from: suggestionsFilter(event.target.value),
+        });
         break;
       case 'To':
-        setAutoComplete({ ...autoComplete, to: autoCompleteFilter(event.target.value) });
+        setInputValue((prevInputValue) => ({
+          ...prevInputValue,
+          flyTo: event.target.value,
+        }));
+        setSuggestions({
+          ...suggestions,
+          to: suggestionsFilter(event.target.value),
+        });
         break;
       case 'Departure':
         if (isAfter(departureDate, returnDate)) {
-          setDate({ dateFrom: event.target.value, dateTo: event.target.value });
+          setInputValue({
+            ...inputValue,
+            dateFrom: event.target.value,
+            dateTo: event.target.value,
+          });
         } else {
-          setDate({ ...date, dateFrom: event.target.value });
+          setInputValue({ ...inputValue, dateFrom: event.target.value });
         }
         break;
       case 'Return':
-        setDate({ ...date, dateTo: event.target.value });
+        setInputValue({ ...inputValue, dateTo: event.target.value });
         break;
       default:
         break;
@@ -64,8 +105,9 @@ function SearchControl() {
               <InputGroup
                 component={component}
                 handleChange={handleDataChange}
-                date={date}
-                autoComplete={autoComplete}
+                inputValue={inputValue}
+                suggestions={suggestions}
+                handleSuggestions={handleSuggestions}
               />
             </li>
           ))}
