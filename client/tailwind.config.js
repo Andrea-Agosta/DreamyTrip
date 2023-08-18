@@ -11,6 +11,7 @@ module.exports = {
         'blue-secondary': '#0079b2',
         'blue-light': '#80d6ff',
         'blue-lighter': '#bfeaff',
+        'blue-dark': '#202831',
       },
       fontFamily: {
         marcellus: ['"Marcellus SC"', 'serif'],

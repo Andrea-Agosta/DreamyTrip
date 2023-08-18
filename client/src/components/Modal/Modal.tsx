@@ -2,11 +2,11 @@ import React, {
   ChangeEvent, useContext, useEffect, useState,
 } from 'react';
 import CountryCurrency from './body/CountryCurrency';
-import { CountryContext } from '../../context/country.context';
+import { CountriesContext } from '../../context/countries.context';
 import { ICountry } from '../../types/country.type';
 
 function Modal({ type }: { type: string }) {
-  const { country, setCountry } = useContext(CountryContext);
+  const { country, setCountry } = useContext(CountriesContext);
   const [isModalOpen, setisModlaOpen] = useState<boolean>(false);
   const [tempSelectValue, setTempSelectValue] = useState<ICountry>(country);
 
