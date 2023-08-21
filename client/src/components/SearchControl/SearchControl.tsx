@@ -97,8 +97,8 @@ function SearchControl() {
   }, []);
 
   return (
-    <section className="p-5 flex bg-blue-dark gap-4 text-blue-lighter font-lato font-bold text-xl text-left">
-      <form className="w-full">
+    <form className="p-5 flex bg-blue-dark/90 gap-4 text-blue-lighter font-lato font-bold text-xl text-left">
+      <div className="w-full">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {componentsName.map((component) => (
             <li key={component} className="mb-2 flex flex-col gap-1">
@@ -112,8 +112,8 @@ function SearchControl() {
             </li>
           ))}
         </ul>
-      </form>
-    </section>
+      </div>
+    </form>
   );
 }
 

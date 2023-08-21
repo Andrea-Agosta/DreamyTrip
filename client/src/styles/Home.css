@@ -1,0 +1,17 @@
+.bg-image {
+  background-image: url('../assets/images/home_mobile.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.text-stroke {
+  color: white;
+  text-shadow: -2px -2px 0 #202831, 2px -2px 0 #202831, -2px 2px 0 #202831, 2px 2px 0 #202831;
+}
+
+@media screen and (min-width: 769px) {
+  .bg-image {
+    background-image: url('../assets/images/home_desktop.jpg');
+  }
+}
