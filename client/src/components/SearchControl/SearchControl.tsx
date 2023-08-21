@@ -3,8 +3,9 @@ import React, {
 } from 'react';
 import format from 'date-fns/format';
 import { isAfter, parse } from 'date-fns';
-import server from '../../api/server';
+import Dropdown from '../Dropdown/Dropdown';
 import InputGroup from './body/InputGroup';
+import server from '../../api/server';
 import { AirportsContext } from '../../context/airports.context';
 import { IAirports } from '../../types/airport.type';
 
@@ -97,7 +98,8 @@ function SearchControl() {
   }, []);
 
   return (
-    <form className="p-5 flex bg-blue-dark/90 gap-4 text-blue-lighter font-lato font-bold text-xl text-left">
+    <form className="p-5 flex flex-col bg-blue-dark/90 gap-4 text-blue-lighter font-lato font-bold text-xl text-left">
+      <Dropdown />
       <div className="w-full">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {componentsName.map((component) => (
