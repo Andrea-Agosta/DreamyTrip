@@ -1,12 +1,13 @@
 import { format } from 'date-fns';
 import React, { ChangeEvent, useState } from 'react';
 import { IAirports } from '../../../types/airport.type';
+import { ISearchFlightRequest } from '../../../types/searchFlight.type';
 import Suggestions from './Suggestions';
 
 interface InputGroup {
   component: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  inputValue: { flyFrom: string; flyTo: string; dateFrom: string; dateTo: string };
+  searchParams: ISearchFlightRequest;
   suggestions: { from: IAirports[]; to: IAirports[] };
   handleSuggestions: (suggestion: IAirports, component: string) => void;
 }
@@ -14,7 +15,7 @@ interface InputGroup {
 function InputGroup({
   component,
   handleChange,
-  inputValue,
+  searchParams,
   suggestions,
   handleSuggestions,
 }: InputGroup) {
@@ -37,7 +38,7 @@ function InputGroup({
           id={component}
           name={component}
           min={today}
-          value={component === 'Departure' ? inputValue.dateFrom : inputValue.dateTo}
+          value={component === 'Departure' ? searchParams.date_from : searchParams.date_to}
           onChange={handleChange}
         />
       ) : (
@@ -47,7 +48,7 @@ function InputGroup({
             type="text"
             id={component}
             name={component}
-            value={inputValue[component === 'From' ? 'flyFrom' : 'flyTo']}
+            value={searchParams[component === 'From' ? 'fly_from' : 'fly_to']}
             onChange={handleChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
